@@ -16,9 +16,7 @@ export function App() {
           <NavLink
             to="/assets"
             className={({ isActive }) =>
-              `flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm font-medium ${
-                isActive ? "bg-slate-100 text-ink" : "text-slate-500 hover:bg-slate-50"
-              }`
+              `flex w-full items-center gap-3 rounded-md px-3 py-2 text-left text-sm font-medium ${isActive ? "bg-slate-100 text-ink" : "text-slate-500 hover:bg-slate-50"}`
             }
           >
             <FolderOpen className="h-4 w-4 text-moss" />

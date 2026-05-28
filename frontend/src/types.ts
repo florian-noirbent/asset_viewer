@@ -1,23 +1,11 @@
-export type UploadedAsset = {
-  id: string;
-  filename: string;
-  content_type: string;
-  size_bytes: number;
-  bucket: string;
-  object_key: string;
-  status: "uploaded";
-  created_at: string;
-};
-
 export type ProvenanceSource = {
   page?: number;
   sourcePage?: number;
   quote?: string;
   document?: string;
   filename?: string;
-  pdfUrl?: string;
-  pdf_url?: string;
   url?: string;
+  refreshUrl?: string;
   source_type?: string;
   sourceType?: string;
   sheet?: string | null;
@@ -73,16 +61,6 @@ export type AssetDetail = AssetSummary & {
 
 export type Lease = AssetLease;
 
-export type UploadStatus = "queued" | "uploading" | "uploaded" | "error";
-
-export type UploadItem = {
-  id: string;
-  file: File;
-  status: UploadStatus;
-  error?: string;
-  asset?: UploadedAsset;
-};
-
 export type EvidenceEntityType = "asset" | "lease";
 
 export type EvidenceTarget = {
@@ -90,7 +68,8 @@ export type EvidenceTarget = {
   fieldPath: string;
   label: string;
   value: string;
-  pdfUrl: string;
+  url: string;
+  refreshUrl?: string;
   filename: string;
   quote: string;
   sourcePage?: number;

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { AlertCircle, Building2, Loader2 } from "lucide-react";
 
 import { listAssets } from "../api";
-import { UploadPanel } from "../components/UploadPanel";
 import type { AssetSummary } from "../types";
 
 export function AssetsPage() {
@@ -30,8 +29,6 @@ export function AssetsPage() {
 
   return (
     <div className="space-y-4">
-      <UploadPanel onUploaded={() => void loadAssets()} />
-
       <section className="rounded-lg border border-line bg-white shadow-panel">
         <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
           <h2 className="font-semibold">Assets</h2>
@@ -63,9 +60,7 @@ export function AssetsPage() {
                   <div className="truncate text-sm font-semibold">{asset.name}</div>
                   <div className="truncate text-xs text-slate-500">{[asset.city, asset.country].filter(Boolean).join(", ") || asset.address}</div>
                 </div>
-                <div className="hidden shrink-0 text-xs text-slate-500 sm:block">
-                  {asset.assetType ?? asset.asset_type ?? asset.propertyType ?? asset.property_type ?? "Asset"}
-                </div>
+                <div className="hidden shrink-0 text-xs text-slate-500 sm:block">{asset.assetType ?? asset.asset_type ?? asset.propertyType ?? asset.property_type ?? "Asset"}</div>
               </Link>
             ))}
           </div>

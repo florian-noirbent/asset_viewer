@@ -6,19 +6,12 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { AssetDetailPage } from "./AssetDetailPage";
 
 vi.mock("../components/evidence", () => ({
-  PdfEvidencePanel: ({
-    isOpen,
-    evidence,
-    onClose,
-  }: {
-    isOpen: boolean;
-    evidence: { label: string; quote: string } | null;
-    onClose: () => void;
-  }) =>
+  PdfEvidencePanel: ({ isOpen, evidence, onClose }: { isOpen: boolean; evidence: { label: string; quote: string } | null; onClose: () => void }) =>
     isOpen && evidence ? (
       <div role="dialog" aria-label="mock pdf evidence">
         <div>{evidence.label}</div>
         <div>{evidence.quote}</div>
+        <div data-testid="pdf-viewer-shell" />
         <button type="button" onClick={onClose}>
           Close
         </button>
@@ -66,6 +59,23 @@ describe("AssetDetailPage", () => {
     await waitFor(() => expect(screen.getByRole("dialog", { name: "mock pdf evidence" })).toBeInTheDocument());
     expect(screen.getByText("Annual rent is GBP 150,000")).toBeInTheDocument();
   });
+
+  it("opens the source panel from asset detail and renders the viewer shell", async () => {
+    const user = userEvent.setup();
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify(assetDetailFixture()), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+
+    renderPage();
+
+    await user.click(await screen.findByRole("button", { name: "Open PDF evidence for City" }));
+
+    expect(screen.getByRole("dialog", { name: "mock pdf evidence" })).toBeInTheDocument();
+    expect(screen.getByTestId("pdf-viewer-shell")).toBeInTheDocument();
+  });
 });
 
 function renderPage() {
@@ -94,7 +104,8 @@ function assetDetailFixture() {
           {
             sourceType: "pdf",
             quote: "Warrington WA4 6RF",
-            pdfUrl: "https://example.test/source.pdf",
+            url: "https://minio.test/source.pdf?signature=asset",
+            refreshUrl: "https://api.test/source.pdf/url",
             document: "source.pdf",
           },
         ],
@@ -117,7 +128,8 @@ function assetDetailFixture() {
               {
                 sourceType: "pdf",
                 quote: "Annual rent is GBP 150,000",
-                pdfUrl: "https://example.test/source.pdf",
+                url: "https://minio.test/source.pdf?signature=lease",
+                refreshUrl: "https://api.test/source.pdf/url",
               },
             ],
           },

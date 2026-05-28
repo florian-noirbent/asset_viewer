@@ -5,25 +5,31 @@ type CachedPdfUrl = {
   sourceUrl: string;
 };
 
+type PresignedPdfUrl = {
+  url: string;
+  expires_in_seconds: number;
+};
+
 const objectUrlCache = new Map<string, Promise<CachedPdfUrl>>();
 
-export async function loadCachedPdfObjectUrl(pdfUrl: string): Promise<string> {
-  const cachedUrl = objectUrlCache.get(pdfUrl);
+export async function loadCachedPdfObjectUrl(sourceUrl: string, refreshUrl?: string): Promise<string> {
+  const cacheKey = refreshUrl ?? sourceUrl;
+  const cachedUrl = objectUrlCache.get(cacheKey);
 
   if (cachedUrl) {
-    objectUrlCache.delete(pdfUrl);
-    objectUrlCache.set(pdfUrl, cachedUrl);
+    objectUrlCache.delete(cacheKey);
+    objectUrlCache.set(cacheKey, cachedUrl);
     return (await cachedUrl).objectUrl;
   }
 
-  const objectUrlPromise = fetchPdfObjectUrl(pdfUrl).catch((error) => {
-    if (objectUrlCache.get(pdfUrl) === objectUrlPromise) {
-      objectUrlCache.delete(pdfUrl);
+  const objectUrlPromise = fetchPdfObjectUrl(sourceUrl, refreshUrl).catch((error) => {
+    if (objectUrlCache.get(cacheKey) === objectUrlPromise) {
+      objectUrlCache.delete(cacheKey);
     }
     throw error;
   });
 
-  objectUrlCache.set(pdfUrl, objectUrlPromise);
+  objectUrlCache.set(cacheKey, objectUrlPromise);
   trimObjectUrlCache();
 
   return (await objectUrlPromise).objectUrl;
@@ -36,24 +42,49 @@ export function clearPdfDocumentCache() {
   objectUrlCache.clear();
 }
 
-async function fetchPdfObjectUrl(pdfUrl: string): Promise<CachedPdfUrl> {
-  const response = await fetch(pdfUrl);
+async function fetchPdfObjectUrl(sourceUrl: string, refreshUrl?: string): Promise<CachedPdfUrl> {
+  let pdfResponse = await fetch(sourceUrl);
 
-  if (!response.ok) {
-    throw new Error(`Unable to load PDF (${response.status})`);
+  if (shouldRefreshSourceUrl(pdfResponse) && refreshUrl) {
+    const refreshedUrl = await fetchRefreshedSourceUrl(refreshUrl);
+    pdfResponse = await fetch(refreshedUrl);
   }
 
-  const blob = await response.blob();
+  if (!pdfResponse.ok) {
+    throw new Error(`Unable to load PDF (${pdfResponse.status})`);
+  }
+
+  const blob = await pdfResponse.blob();
 
   return {
     objectUrl: URL.createObjectURL(blob),
-    sourceUrl: pdfUrl,
+    sourceUrl,
   };
+}
+
+async function fetchRefreshedSourceUrl(refreshUrl: string): Promise<string> {
+  const refreshResponse = await fetch(refreshUrl);
+
+  if (!refreshResponse.ok) {
+    throw new Error(`Unable to refresh PDF URL (${refreshResponse.status})`);
+  }
+
+  const refreshedUrl = (await refreshResponse.json()) as PresignedPdfUrl;
+
+  if (!refreshedUrl.url) {
+    throw new Error("Unable to refresh PDF URL");
+  }
+
+  return refreshedUrl.url;
+}
+
+function shouldRefreshSourceUrl(response: Response): boolean {
+  return response.status === 401 || response.status === 403;
 }
 
 function trimObjectUrlCache() {
   while (objectUrlCache.size > MAX_CACHED_DOCUMENTS) {
-    const oldestUrl = objectUrlCache.keys().next().value as string | undefined;
+    const oldestUrl = objectUrlCache.keys().next().value;
 
     if (!oldestUrl) {
       return;

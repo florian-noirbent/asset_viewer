@@ -1,12 +1,25 @@
 # GoCanopy Asset Management POC
 
-POC scaffold for uploading asset source files through a FastAPI API, storing the raw files in MinIO, and recording upload metadata in Postgres.
+GoCanopy is a proof of concept for browsing asset and lease data with field-level source evidence. The current focus is the viewer workflow: assets and leases are loaded from Postgres, source PDFs are stored privately in MinIO, and the frontend opens a PDF evidence panel that searches and highlights the quoted source text through backend-issued presigned URLs.
 
-## Stack
+## Architecture
 
-- Backend: Python, FastAPI, SQLAlchemy async, MinIO client, uv
-- Frontend: React, TypeScript, Vite, Tailwind, npm
-- Services: Postgres 16, MinIO
+- Backend: FastAPI, SQLAlchemy async, Postgres, MinIO, `uv`
+- Frontend: React, TypeScript, Vite, Tailwind, React PDF Viewer
+- Storage:
+  - Postgres stores assets, tenants, leases, provenance JSONB, and `file_index`
+  - MinIO stores source PDFs referenced by `file_index`
+- Seed resources: `ressources/warrington_test_data.json` and the bundled Warrington PDF
+
+```mermaid
+flowchart LR
+    Frontend[React viewer UI] --> API[FastAPI API]
+    API --> Postgres[(Postgres)]
+    API -->|presign| MinIO[(Private MinIO source PDFs)]
+    Frontend -->|temporary URL| MinIO
+    Seed[JSON/PDF initializer] --> Postgres
+    Seed --> MinIO
+```
 
 ## Run
 
@@ -14,33 +27,82 @@ POC scaffold for uploading asset source files through a FastAPI API, storing the
 docker compose up --build
 ```
 
-Copy `.env.example` to `.env` first if you want to override the local defaults.
-
 Open:
 
 - Frontend: http://localhost:5173
 - Backend API docs: http://localhost:8000/docs
 - MinIO console: http://localhost:9001
 
-Postgres is exposed to host tools on `localhost:5433`. Inside Docker, services still use `postgres:5432`.
+Postgres is exposed on `localhost:5433`. Inside Docker, services use `postgres:5432`.
 
-Default MinIO credentials are `minioadmin` / `minioadmin`.
+Default local credentials:
 
-## Current POC Flow
+- Postgres: `gocanopy` / `gocanopy`
+- MinIO: `minioadmin` / `minioadmin`
 
-1. Upload a file from the frontend.
-2. `POST /api/uploads` stores the file in MinIO under `uploads/{file_id}/original/{filename}`.
-3. The backend creates a `file_index` row in Postgres.
-4. The frontend displays the returned upload metadata.
+## Seed Sample Data
 
-Parsing, backend workers, notifications, asset extraction, and field-level source evidence are intentionally out of scope for this first step.
-
-## Load Warrington Sample Data
-
-The backend includes an explicit initializer for the JSON file in `ressources/`:
+Run the initializer after the stack is up:
 
 ```bash
 docker compose exec backend uv run --no-dev python -m app.db.init_from_json /app/ressources/warrington_test_data.json
 ```
 
-The initializer creates missing tables, upserts assets, tenants, and leases, and preserves provenance JSON on each table.
+The initializer:
+
+- creates missing tables
+- upserts assets, tenants, and leases
+- preserves provenance JSONB
+- uploads the bundled PDF to MinIO under `resources/{safe_filename}`
+- upserts a matching `file_index` row
+
+## Current Routes
+
+- `GET /health`
+- `GET /api/assets`
+- `GET /api/assets/{asset_id}` returns fields with valid source `url` values
+- `GET /api/resources/{filename}/url` refreshes an expired source URL
+
+See [docs/routes.md](docs/routes.md) for route details and [docs/database.md](docs/database.md) for the schema.
+
+## Development Checks
+
+Backend:
+
+```bash
+cd backend
+uv run ruff check .
+uv run ruff format --check .
+uv run black --check .
+uv run mypy app tests
+uv run pytest -q
+```
+
+Frontend:
+
+```bash
+cd frontend
+npm run lint
+npm run format:check
+npm run typecheck
+npm test
+npm run build
+```
+
+## Scope
+
+Included:
+
+- Asset list and single asset detail page
+- Inline lease display
+- Field-level provenance buttons
+- PDF evidence panel with search/highlight behavior
+- Private MinIO source PDFs loaded through short-lived presigned URLs
+
+Out of scope for this POC slice:
+
+- User file uploads
+- Background parsing workers
+- Authentication and authorization
+- Websocket notifications
+- Editing or patch history workflows

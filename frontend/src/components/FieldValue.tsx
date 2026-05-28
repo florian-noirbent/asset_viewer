@@ -1,6 +1,5 @@
 import { Link2 } from "lucide-react";
 
-import { apiUrl } from "../api";
 import type { EvidenceEntityType, EvidenceTarget, ProvenanceMap, ProvenanceSource } from "../types";
 
 type FieldValueProps = {
@@ -32,9 +31,7 @@ export function FieldValue({ entityType, fieldPath, label, value, provenance, on
           </button>
         ) : null}
       </div>
-      <div className={`break-words text-sm ${displayValue === "Not provided" ? "text-slate-500" : "text-ink"}`}>
-        {displayValue}
-      </div>
+      <div className={`break-words text-sm ${displayValue === "Not provided" ? "text-slate-500" : "text-ink"}`}>{displayValue}</div>
     </div>
   );
 }
@@ -43,8 +40,9 @@ export function formatValue(value: unknown): string {
   if (value === null || value === undefined || value === "") return "Not provided";
   if (typeof value === "number") return Number.isInteger(value) ? `${value}` : value.toLocaleString();
   if (typeof value === "string") return value;
+  if (typeof value === "boolean") return value ? "Yes" : "No";
   if (value instanceof Date) return value.toLocaleDateString();
-  return String(value);
+  return JSON.stringify(value);
 }
 
 function buildEvidenceTarget({
@@ -64,15 +62,16 @@ function buildEvidenceTarget({
   if (!source?.quote) return null;
 
   const filename = source.filename ?? source.document ?? "Source PDF";
-  const pdfUrl =
-    source.pdfUrl ?? source.pdf_url ?? source.url ?? apiUrl(`/api/evidence/pdf?document=${encodeURIComponent(filename)}`);
+  const url = source.url;
+  if (!url) return null;
 
   return {
     entityType,
     fieldPath,
     label,
     value,
-    pdfUrl,
+    url,
+    refreshUrl: source.refreshUrl,
     filename,
     quote: source.quote,
     sourcePage: source.sourcePage ?? source.page,
@@ -90,10 +89,7 @@ function findPdfQuote(provenance: ProvenanceMap | ProvenanceSource[] | undefined
   for (const entries of sourceLists) {
     const match = entries.find((entry) => {
       const sourceType = entry.source_type ?? entry.sourceType;
-      return (
-        Boolean(entry.quote) &&
-        (!sourceType || sourceType.toLowerCase() === "pdf")
-      );
+      return Boolean(entry.quote) && (!sourceType || sourceType.toLowerCase() === "pdf");
     });
     if (match) return match;
   }

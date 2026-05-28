@@ -1,8 +1,6 @@
 {
     "database": {
         "1779960000000": {
-            "key": "1779960000000",
-            "isTreeNode": true,
             "host": "localhost",
             "port": 5433,
             "user": "gocanopy",
@@ -31,8 +29,8 @@
                 "encoding": "utf8",
                 "showHidden": true
             },
-            "connectionKey": "database.connections",
-            "disable": true
+            "key": "1779960000000",
+            "connectionKey": "database.connections"
         }
     },
     "nosql": {},

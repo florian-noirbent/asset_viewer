@@ -21,6 +21,7 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_API_CORS_ALLOW_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:5173}
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -32,6 +33,21 @@ services:
       timeout: 5s
       retries: 10
 
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-assets}
+    entrypoint: >
+      /bin/sh -c '
+        mc alias set local http://minio:9000 "$${MINIO_ACCESS_KEY}" "$${MINIO_SECRET_KEY}";
+        mc mb --ignore-existing "local/$${MINIO_BUCKET}";
+      '
+
   backend:
     build: ./backend
     environment:
@@ -41,6 +57,9 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-assets}
       MINIO_SECURE: ${MINIO_SECURE:-false}
+      MINIO_REGION: ${MINIO_REGION:-us-east-1}
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-localhost:9000}
+      MINIO_PRESIGNED_URL_EXPIRES_SECONDS: ${MINIO_PRESIGNED_URL_EXPIRES_SECONDS:-900}
       BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-http://localhost:5173}
     ports:
       - "8000:8000"
@@ -50,8 +69,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      minio:
-        condition: service_started
+      minio-init:
+        condition: service_completed_successfully
     command: uv run --no-dev uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   frontend:

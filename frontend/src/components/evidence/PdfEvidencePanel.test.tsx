@@ -57,7 +57,8 @@ const evidence: EvidenceTarget = {
   fieldPath: "asset.location",
   label: "Location",
   value: "Paris",
-  pdfUrl: "https://example.test/source.pdf",
+  url: "https://minio.test/source.pdf",
+  refreshUrl: "https://api.test/source.pdf/url",
   filename: "source.pdf",
   quote: "The property is located in Paris",
   sourcePage: 4,
@@ -103,7 +104,7 @@ describe("PdfEvidencePanel", () => {
   it("loads the PDF through the object URL cache", async () => {
     render(<PdfEvidencePanel evidence={evidence} isOpen onClose={vi.fn()} />);
 
-    await waitFor(() => expect(loadCachedPdfObjectUrl).toHaveBeenCalledWith("https://example.test/source.pdf"));
+    await waitFor(() => expect(loadCachedPdfObjectUrl).toHaveBeenCalledWith("https://minio.test/source.pdf", "https://api.test/source.pdf/url"));
     expect(screen.getByTestId("mock-viewer")).toHaveAttribute("data-file-url", "blob:source-pdf");
   });
 

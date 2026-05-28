@@ -41,7 +41,8 @@ const assetDetail = {
           sourceType: "pdf",
           document: "source.pdf",
           filename: "source.pdf",
-          pdfUrl: "http://localhost:8000/api/resources/source.pdf",
+          url: "http://localhost:9000/assets/resources/source.pdf?signature=asset",
+          refreshUrl: "http://localhost:8000/api/resources/source.pdf/url",
           quote: "Causeway Park source quote",
           page: 2,
         },
@@ -66,7 +67,8 @@ const assetDetail = {
               sourceType: "pdf",
               document: "source.pdf",
               filename: "source.pdf",
-              pdfUrl: "http://localhost:8000/api/resources/source.pdf",
+              url: "http://localhost:9000/assets/resources/source.pdf?signature=lease",
+              refreshUrl: "http://localhost:8000/api/resources/source.pdf/url",
               quote: "Lease rent source quote",
               page: 12,
             },
@@ -92,22 +94,6 @@ describe("App", () => {
     expect(screen.getByText("Asset Library")).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText("Causeway Park")).toBeInTheDocument());
     expect(screen.getByText("Warrington, United Kingdom")).toBeInTheDocument();
-  });
-
-  it("keeps upload available on the asset list route", async () => {
-    const user = userEvent.setup();
-    mockFetch({
-      "http://localhost:8000/api/assets": assetListResponse(),
-      "http://localhost:8000/api/uploads": uploadResponse(),
-    });
-
-    renderApp("/assets");
-
-    const file = new File(["hello"], "asset.pdf", { type: "application/pdf" });
-    await user.upload(screen.getByLabelText("Upload files"), file);
-    await user.click(screen.getByRole("button", { name: "Upload queued" }));
-
-    await waitFor(() => expect(screen.getByText("uploaded")).toBeInTheDocument());
   });
 
   it("renders asset fields and all leases on one page", async () => {
@@ -152,18 +138,20 @@ function renderApp(initialPath: string) {
 }
 
 function mockFetch(responses: Record<string, unknown>) {
-  vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+  vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
     const url = typeof input === "string" ? input : input instanceof Request ? input.url : input.toString();
     const response = responses[url];
 
     if (!response) {
-      return new Response("Not found", { status: 404 });
+      return Promise.resolve(new Response("Not found", { status: 404 }));
     }
 
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return Promise.resolve(
+      new Response(JSON.stringify(response), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
   });
 }
 
@@ -173,17 +161,4 @@ function assetListResponse() {
 
 function assetDetailResponse() {
   return assetDetail;
-}
-
-function uploadResponse() {
-  return {
-    id: "7c9e6679-7425-40de-944b-e07fc1f90ae7",
-    filename: "asset.pdf",
-    content_type: "application/pdf",
-    size_bytes: 5,
-    bucket: "assets",
-    object_key: "uploads/7c9e6679-7425-40de-944b-e07fc1f90ae7/original/asset.pdf",
-    status: "uploaded",
-    created_at: "2026-05-28T10:00:00Z",
-  };
 }

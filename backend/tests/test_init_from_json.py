@@ -1,36 +1,47 @@
 from datetime import timezone
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
+import uuid
 
 import pytest
 
+from app.storage.minio_client import UploadedObject, safe_filename
 from app.db.init_from_json import (
+    DEFAULT_PDF_FILENAME,
     build_seed_records,
     load_json_rows,
     parse_datetime,
     parse_decimal,
     parse_nullable_string,
+    resolve_pdf_path,
+    resource_file_id,
+    seed_resource_pdf,
     seed_session,
 )
-from app.db.models import Asset, Lease, Tenant
+from app.db.models import Asset, FileIndex, Lease, Tenant
 
 RESOURCE_JSON = Path(__file__).resolve().parents[2] / "ressources" / "warrington_test_data.json"
+RESOURCE_PDF = Path(__file__).resolve().parents[2] / "ressources" / DEFAULT_PDF_FILENAME
 
 
 class FakeSeedSession:
     def __init__(self) -> None:
-        self.assets: dict[object, Asset] = {}
+        self.assets: dict[uuid.UUID, Asset] = {}
         self.tenants: dict[str, Tenant] = {}
         self.leases: dict[str, Lease] = {}
+        self.files: dict[uuid.UUID, FileIndex] = {}
         self.commits = 0
 
-    async def merge(self, row):
+    async def merge(self, row: object) -> Any:
         if isinstance(row, Asset):
             self.assets[row.id] = row
         elif isinstance(row, Tenant):
             self.tenants[row.id] = row
         elif isinstance(row, Lease):
             self.leases[row.id] = row
+        elif isinstance(row, FileIndex):
+            self.files[row.id] = row
         else:
             raise TypeError(f"Unexpected row type {type(row)!r}")
 
@@ -38,6 +49,30 @@ class FakeSeedSession:
 
     async def commit(self) -> None:
         self.commits += 1
+
+
+class FakeSettings:
+    def __init__(self, bucket: str) -> None:
+        self.minio_bucket = bucket
+
+
+class FakeStorage:
+    def __init__(self, bucket: str = "assets") -> None:
+        self.settings = FakeSettings(bucket)
+        self.objects: dict[str, bytes] = {}
+
+    def upload_local_pdf(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
+        data = path.read_bytes()
+        filename = safe_filename(path.name)
+        object_key = f"{object_prefix}/{filename}"
+        self.objects[object_key] = data
+        return UploadedObject(
+            filename=filename,
+            content_type="application/pdf",
+            size_bytes=len(data),
+            bucket=self.settings.minio_bucket,
+            object_key=object_key,
+        )
 
 
 def test_parse_empty_string_to_none() -> None:
@@ -82,4 +117,25 @@ async def test_seed_session_is_idempotent_for_resource_json() -> None:
     assert len(session.assets) == 1
     assert len(session.tenants) == 6
     assert len(session.leases) == 6
+    assert session.commits == 2
+
+
+def test_resolve_pdf_path_finds_bundled_pdf_next_to_json() -> None:
+    assert resolve_pdf_path(RESOURCE_JSON) == RESOURCE_PDF
+
+
+@pytest.mark.asyncio
+async def test_seed_resource_pdf_uploads_and_upserts_file_index() -> None:
+    session = FakeSeedSession()
+    storage = FakeStorage()
+
+    first = await seed_resource_pdf(session, storage, RESOURCE_PDF)
+    second = await seed_resource_pdf(session, storage, RESOURCE_PDF)
+
+    assert first.id == second.id
+    assert len(session.files) == 1
+    assert first.filename == "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01_1.pdf"
+    assert first.object_key == f"resources/{first.filename}"
+    assert first.id == resource_file_id(first.object_key)
+    assert storage.objects[first.object_key].startswith(b"%PDF")
     assert session.commits == 2

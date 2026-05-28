@@ -7,12 +7,13 @@ from typing import Any
 from urllib.parse import quote
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from fastapi.responses import FileResponse
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db.models import Asset, Lease, Tenant
+from app.core.config import Settings, get_settings
+from app.db.models import Asset, FileIndex, Lease, Tenant
 from app.db.session import get_db_session
+from app.storage.minio_client import ObjectStorage, get_object_storage, safe_filename
 
 router = APIRouter(prefix="/api", tags=["assets"])
 
@@ -75,44 +76,56 @@ async def get_asset(
     asset_id: uuid.UUID,
     request: Request,
     session: AsyncSession = Depends(get_db_session),
+    storage: ObjectStorage = Depends(get_object_storage),
+    settings: Settings = Depends(get_settings),
 ) -> dict[str, Any]:
     asset = await session.get(Asset, asset_id)
     if asset is None:
         raise HTTPException(status_code=404, detail="Asset not found")
 
-    result = await session.execute(
-        select(Lease, Tenant)
-        .join(Tenant, Tenant.id == Lease.tenant_id)
-        .where(Lease.asset_id == asset_id)
-        .order_by(Lease.id)
-    )
+    result = await session.execute(select(Lease, Tenant).join(Tenant, Tenant.id == Lease.tenant_id).where(Lease.asset_id == asset_id).order_by(Lease.id))
+    file_indexes = await load_file_indexes(session)
 
     return {
         **serialize_asset_summary(asset),
-        "fields": serialize_asset_fields(asset, request),
-        "leases": [
-            serialize_lease(lease, tenant, request)
-            for lease, tenant in result.all()
-        ],
+        "fields": serialize_asset_fields(asset, request, file_indexes, storage, settings),
+        "leases": [serialize_lease(lease, tenant, request, file_indexes, storage, settings) for lease, tenant in result.all()],
     }
 
 
-@router.get("/resources/{filename:path}", name="get_resource")
-async def get_resource_pdf(filename: str) -> FileResponse:
-    safe_filename = Path(filename).name
-    if safe_filename != filename or Path(filename).suffix.lower() != ".pdf":
+@router.get("/resources/{filename}/url", name="get_resource_url")
+async def get_resource_pdf_url(
+    filename: str,
+    storage: ObjectStorage = Depends(get_object_storage),
+    session: AsyncSession = Depends(get_db_session),
+    settings: Settings = Depends(get_settings),
+) -> dict[str, Any]:
+    requested_filename = Path(filename).name
+    if requested_filename != filename or Path(filename).suffix.lower() != ".pdf":
         raise HTTPException(status_code=404, detail="Resource not found")
 
-    for root in (Path("/app/ressources"), Path(__file__).resolve().parents[4] / "ressources"):
-        resource_path = root / safe_filename
-        if resource_path.is_file():
-            return FileResponse(
-                resource_path,
-                media_type="application/pdf",
-                filename=safe_filename,
-            )
+    index_filename = safe_filename(requested_filename)
+    result = await session.execute(select(FileIndex).where(FileIndex.filename == index_filename))
+    file_index = result.scalars().first()
+    if file_index is None:
+        raise HTTPException(status_code=404, detail="Resource not found")
 
-    raise HTTPException(status_code=404, detail="Resource not found")
+    try:
+        if not storage.object_exists(file_index.object_key):
+            raise FileNotFoundError(file_index.object_key)
+        url = storage.presigned_get_url(file_index.object_key, settings.minio_presigned_url_expires_seconds)
+    except Exception as error:
+        raise HTTPException(status_code=404, detail="Resource not found") from error
+
+    return {
+        "url": url,
+        "expires_in_seconds": settings.minio_presigned_url_expires_seconds,
+    }
+
+
+async def load_file_indexes(session: AsyncSession) -> dict[str, FileIndex]:
+    result = await session.execute(select(FileIndex))
+    return {file_index.filename: file_index for file_index in result.scalars().all()}
 
 
 def serialize_asset_summary(asset: Asset) -> dict[str, Any]:
@@ -128,14 +141,20 @@ def serialize_asset_summary(asset: Asset) -> dict[str, Any]:
     }
 
 
-def serialize_asset_fields(asset: Asset, request: Request) -> list[dict[str, Any]]:
+def serialize_asset_fields(
+    asset: Asset,
+    request: Request,
+    file_indexes: dict[str, FileIndex],
+    storage: ObjectStorage,
+    settings: Settings,
+) -> list[dict[str, Any]]:
     fields = []
 
     for attr, label, provenance_source, provenance_key in ASSET_FIELDS:
         provenance = []
         if provenance_source and provenance_key:
             provenance_blob = getattr(asset, provenance_source) or {}
-            provenance = normalize_provenance(provenance_blob.get(provenance_key, []), request)
+            provenance = normalize_provenance(provenance_blob.get(provenance_key, []), request, file_indexes, storage, settings)
 
         fields.append(
             {
@@ -149,7 +168,14 @@ def serialize_asset_fields(asset: Asset, request: Request) -> list[dict[str, Any
     return fields
 
 
-def serialize_lease(lease: Lease, tenant: Tenant, request: Request) -> dict[str, Any]:
+def serialize_lease(
+    lease: Lease,
+    tenant: Tenant,
+    request: Request,
+    file_indexes: dict[str, FileIndex],
+    storage: ObjectStorage,
+    settings: Settings,
+) -> dict[str, Any]:
     return {
         "id": lease.id,
         "tenant": {
@@ -162,19 +188,30 @@ def serialize_lease(lease: Lease, tenant: Tenant, request: Request) -> dict[str,
                 "fieldPath": f"lease.{attr}",
                 "label": label,
                 "value": serialize_value(getattr(lease, attr)),
-                "provenance": normalize_provenance(
-                    (lease.lease_provenance or {}).get(provenance_key, []),
-                    request,
-                )
-                if provenance_key
-                else [],
+                "provenance": (
+                    normalize_provenance(
+                        (lease.lease_provenance or {}).get(provenance_key, []),
+                        request,
+                        file_indexes,
+                        storage,
+                        settings,
+                    )
+                    if provenance_key
+                    else []
+                ),
             }
             for attr, label, provenance_key in LEASE_FIELDS
         ],
     }
 
 
-def normalize_provenance(raw_items: Any, request: Request) -> list[dict[str, Any]]:
+def normalize_provenance(
+    raw_items: Any,
+    request: Request,
+    file_indexes: dict[str, FileIndex],
+    storage: ObjectStorage,
+    settings: Settings,
+) -> list[dict[str, Any]]:
     if isinstance(raw_items, dict):
         items: Iterable[Any] = [raw_items]
     elif isinstance(raw_items, list):
@@ -188,16 +225,29 @@ def normalize_provenance(raw_items: Any, request: Request) -> list[dict[str, Any
             continue
 
         document = item.get("document")
+        source_type = item.get("source_type")
+        source_url = None
+        refresh_url = None
+        if document and source_type == "pdf":
+            refresh_url = f"{str(request.base_url).rstrip('/')}/api/resources/{quote(document)}/url"
+            file_index = file_indexes.get(safe_filename(document))
+            if file_index:
+                try:
+                    if storage.object_exists(file_index.object_key):
+                        source_url = storage.presigned_get_url(file_index.object_key, settings.minio_presigned_url_expires_seconds)
+                except Exception:
+                    source_url = None
+
         normalized.append(
             {
                 "document": document,
                 "quote": item.get("quote"),
                 "page": item.get("page"),
                 "sheet": item.get("sheet"),
-                "sourceType": item.get("source_type"),
-                "pdfUrl": f"{str(request.base_url).rstrip('/')}/api/resources/{quote(document)}"
-                if document and item.get("source_type") == "pdf"
-                else None,
+                "sourceType": source_type,
+                "url": source_url,
+                "refreshUrl": refresh_url,
+                "expiresInSeconds": settings.minio_presigned_url_expires_seconds if source_url else None,
             }
         )
 

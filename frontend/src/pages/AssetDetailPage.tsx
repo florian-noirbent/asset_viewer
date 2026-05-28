@@ -74,13 +74,9 @@ export function AssetDetailPage() {
           <h2 className="mt-1 text-2xl font-semibold">{asset.name}</h2>
           <p className="mt-1 text-sm text-slate-500">{[asset.address, asset.city, asset.country].filter(Boolean).join(", ")}</p>
           <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-600">
-            {asset.assetType || asset.asset_type ? (
-              <span className="rounded-md bg-slate-100 px-2 py-1">{asset.assetType ?? asset.asset_type}</span>
-            ) : null}
-            {asset.propertyType || asset.property_type ? (
-              <span className="rounded-md bg-slate-100 px-2 py-1">{asset.propertyType ?? asset.property_type}</span>
-            ) : null}
-            {asset.currency ? <span className="rounded-md bg-slate-100 px-2 py-1">{String(asset.currency)}</span> : null}
+            {asset.assetType || asset.asset_type ? <span className="rounded-md bg-slate-100 px-2 py-1">{asset.assetType ?? asset.asset_type}</span> : null}
+            {asset.propertyType || asset.property_type ? <span className="rounded-md bg-slate-100 px-2 py-1">{asset.propertyType ?? asset.property_type}</span> : null}
+            {isDisplayablePrimitive(asset.currency) ? <span className="rounded-md bg-slate-100 px-2 py-1">{String(asset.currency)}</span> : null}
           </div>
         </section>
 
@@ -129,15 +125,7 @@ function BackLink() {
   );
 }
 
-function LeasePanel({
-  lease,
-  index,
-  onOpenEvidence,
-}: {
-  lease: AssetLease;
-  index: number;
-  onOpenEvidence: (evidence: EvidenceTarget) => void;
-}) {
+function LeasePanel({ lease, index, onOpenEvidence }: { lease: AssetLease; index: number; onOpenEvidence: (evidence: EvidenceTarget) => void }) {
   const title = lease.tenant?.name ?? lease.tenant_name ?? lease.lessee_name_verbatim ?? lease.id;
   const leaseFields = lease.fields?.length ? lease.fields : fieldsFromRecord(lease, "lease", hiddenLeaseKeys, lease.lease_provenance);
 
@@ -170,14 +158,9 @@ function LeasePanel({
   );
 }
 
-function fieldsFromRecord(
-  record: Record<string, unknown>,
-  entityPrefix: "asset" | "lease",
-  hiddenKeys: Set<string>,
-  provenance?: ProvenanceMap,
-): FieldDatum[] {
+function fieldsFromRecord(record: Record<string, unknown>, entityPrefix: "asset" | "lease", hiddenKeys: Set<string>, provenance?: ProvenanceMap): FieldDatum[] {
   return Object.entries(record)
-    .filter(([key, value]) => !hiddenKeys.has(key) && isDisplayable(value))
+    .filter((entry): entry is [string, string | number | boolean | null] => !hiddenKeys.has(entry[0]) && isDisplayablePrimitive(entry[1]))
     .map(([key, value]) => ({
       fieldPath: `${entityPrefix}.${key}`,
       label: labelize(key),
@@ -191,14 +174,14 @@ function normalizeProvenance(entry: ProvenanceMap[string]): FieldDatum["provenan
   return Array.isArray(entry) ? entry : [entry];
 }
 
-function isDisplayable(value: unknown): boolean {
+function isDisplayablePrimitive(value: unknown): value is string | number | boolean | null {
   if (value === undefined || typeof value === "function") return false;
   if (Array.isArray(value)) return false;
   return !(value && typeof value === "object");
 }
 
-function mergeProvenance(...maps: Array<ProvenanceMap | undefined>): ProvenanceMap {
-  return Object.assign({}, ...maps.filter(Boolean));
+function mergeProvenance(...maps: (ProvenanceMap | undefined)[]): ProvenanceMap {
+  return maps.reduce<ProvenanceMap>((merged, map) => (map ? { ...merged, ...map } : merged), {});
 }
 
 function labelize(key: string): string {

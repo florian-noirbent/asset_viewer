@@ -6,14 +6,16 @@ from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Any
+from typing import Any, Protocol, cast
 
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.db.models import Asset, Lease, Tenant
+import anyio
+from app.db.models import Asset, FileIndex, Lease, Tenant
 from app.db.session import get_sessionmaker, init_db
+from app.storage.minio_client import get_object_storage
 
 DEFAULT_JSON_PATH = Path("/app/ressources/warrington_test_data.json")
+DEFAULT_PDF_FILENAME = "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf"
+RESOURCE_OBJECT_PREFIX = "resources"
 
 
 @dataclass(frozen=True)
@@ -21,6 +23,16 @@ class SeedRecords:
     assets: list[Asset]
     tenants: list[Tenant]
     leases: list[Lease]
+
+
+class SeedSession(Protocol):
+    async def merge(self, row: object) -> Any: ...
+
+    async def commit(self) -> None: ...
+
+
+class ResourceStorage(Protocol):
+    def upload_local_pdf(self, path: Path, object_prefix: str = "resources") -> Any: ...
 
 
 def parse_nullable_string(value: Any) -> str | None:
@@ -165,7 +177,7 @@ def build_lease(row: dict[str, Any]) -> Lease:
     )
 
 
-async def seed_session(session: AsyncSession, rows: list[dict[str, Any]]) -> SeedRecords:
+async def seed_session(session: SeedSession, rows: list[dict[str, Any]]) -> SeedRecords:
     records = build_seed_records(rows)
 
     for asset in records.assets:
@@ -181,12 +193,52 @@ async def seed_session(session: AsyncSession, rows: list[dict[str, Any]]) -> See
     return records
 
 
+async def seed_resource_pdf(
+    session: SeedSession,
+    storage: ResourceStorage,
+    pdf_path: Path,
+) -> FileIndex:
+    uploaded = await anyio.to_thread.run_sync(storage.upload_local_pdf, pdf_path, RESOURCE_OBJECT_PREFIX)
+    row = FileIndex(
+        id=resource_file_id(uploaded.object_key),
+        filename=uploaded.filename,
+        content_type=uploaded.content_type,
+        size_bytes=uploaded.size_bytes,
+        bucket=uploaded.bucket,
+        object_key=uploaded.object_key,
+        status="uploaded",
+    )
+    merged = await session.merge(row)
+    await session.commit()
+    return cast(FileIndex, merged)
+
+
 async def initialize_database_from_json(path: Path) -> SeedRecords:
     await init_db()
     rows = load_json_rows(path)
 
     async with get_sessionmaker()() as session:
-        return await seed_session(session, rows)
+        records = await seed_session(session, rows)
+        await seed_resource_pdf(session, get_object_storage(), resolve_pdf_path(path))
+        return records
+
+
+def resolve_pdf_path(json_path: Path) -> Path:
+    candidates = [
+        json_path.parent / DEFAULT_PDF_FILENAME,
+        Path("/app/ressources") / DEFAULT_PDF_FILENAME,
+        Path(__file__).resolve().parents[3] / "ressources" / DEFAULT_PDF_FILENAME,
+    ]
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    raise FileNotFoundError(f"Could not find bundled Warrington PDF: {DEFAULT_PDF_FILENAME}")
+
+
+def resource_file_id(object_key: str) -> uuid.UUID:
+    return uuid.uuid5(uuid.NAMESPACE_URL, object_key)
 
 
 def required(row: dict[str, Any], key: str) -> str:
@@ -221,10 +273,7 @@ def parse_args() -> argparse.Namespace:
 async def async_main() -> None:
     args = parse_args()
     records = await initialize_database_from_json(args.json_path)
-    print(
-        "Initialized database from JSON: "
-        f"{len(records.assets)} assets, {len(records.tenants)} tenants, {len(records.leases)} leases"
-    )
+    print(f"Initialized database from JSON: {len(records.assets)} assets, {len(records.tenants)} tenants, {len(records.leases)} leases")
 
 
 def main() -> None:

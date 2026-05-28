@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 from decimal import Decimal
+from typing import Any
 
 from sqlalchemy import BigInteger, DateTime, ForeignKey, Numeric, String, func
 from sqlalchemy.dialects.postgresql import JSONB, UUID
@@ -21,9 +22,7 @@ class FileIndex(Base):
     bucket: Mapped[str] = mapped_column(String(255), nullable=False)
     object_key: Mapped[str] = mapped_column(String(1024), nullable=False, unique=True)
     status: Mapped[str] = mapped_column(String(50), nullable=False, default="uploaded")
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
 
 class Asset(Base):
@@ -61,14 +60,10 @@ class Asset(Base):
     walt: Mapped[Decimal | None] = mapped_column(Numeric)
     walb: Mapped[Decimal | None] = mapped_column(Numeric)
     erv: Mapped[Decimal | None] = mapped_column(Numeric)
-    asset_provenance: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
-    logistics_provenance: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
-    )
+    asset_provenance: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False, default=dict)
+    logistics_provenance: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
 
 class Tenant(Base):
@@ -77,22 +72,16 @@ class Tenant(Base):
     id: Mapped[str] = mapped_column(String(255), primary_key=True)
     name: Mapped[str] = mapped_column(String(512), nullable=False)
     industry: Mapped[str | None] = mapped_column(String(255))
-    tenant_provenance: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
-    )
+    tenant_provenance: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
 
 class Lease(Base):
     __tablename__ = "leases"
 
     id: Mapped[str] = mapped_column(String(255), primary_key=True)
-    asset_id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True), ForeignKey("assets.id"), nullable=False
-    )
+    asset_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("assets.id"), nullable=False)
     tenant_id: Mapped[str] = mapped_column(String(255), ForeignKey("tenants.id"), nullable=False)
     lease_type: Mapped[str | None] = mapped_column(String(255))
     area_sf: Mapped[Decimal | None] = mapped_column(Numeric)
@@ -116,10 +105,6 @@ class Lease(Base):
     erv: Mapped[Decimal | None] = mapped_column(Numeric)
     lessee_name_verbatim: Mapped[str | None] = mapped_column(String(512))
     signing_entity: Mapped[str | None] = mapped_column(String(512))
-    lease_provenance: Mapped[dict] = mapped_column(JSONB, nullable=False, default=dict)
-    created_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), nullable=False
-    )
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False
-    )
+    lease_provenance: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)

@@ -13,10 +13,8 @@ import type { EvidenceTarget } from "../../types";
 
 type DefaultWrappedModule<T> = T & { default?: T };
 
-const pdfViewerCore =
-  (pdfViewerCoreModule as DefaultWrappedModule<typeof pdfViewerCoreModule>).default ?? pdfViewerCoreModule;
-const pdfViewerToolbar =
-  (pdfViewerToolbarModule as DefaultWrappedModule<typeof pdfViewerToolbarModule>).default ?? pdfViewerToolbarModule;
+const pdfViewerCore = (pdfViewerCoreModule as DefaultWrappedModule<typeof pdfViewerCoreModule>).default ?? pdfViewerCoreModule;
+const pdfViewerToolbar = (pdfViewerToolbarModule as DefaultWrappedModule<typeof pdfViewerToolbarModule>).default ?? pdfViewerToolbarModule;
 const { Viewer, Worker } = pdfViewerCore;
 const { toolbarPlugin } = pdfViewerToolbar;
 
@@ -56,7 +54,7 @@ function OpenPdfEvidencePanel({ evidence, onClose }: { evidence: EvidenceTarget;
       setViewerUrl(null);
 
       try {
-        const objectUrl = await loadCachedPdfObjectUrl(currentEvidence.pdfUrl);
+        const objectUrl = await loadCachedPdfObjectUrl(currentEvidence.url, currentEvidence.refreshUrl);
 
         if (!cancelled) {
           setViewerUrl(objectUrl);
@@ -79,15 +77,11 @@ function OpenPdfEvidencePanel({ evidence, onClose }: { evidence: EvidenceTarget;
   }, [evidence]);
 
   async function handleDocumentLoad(event: DocumentLoadEvent) {
-    if (!evidence) {
-      return;
-    }
-
     const quote = evidence.quote.trim();
     const sourcePageIndex = getSourcePageIndex(evidence.sourcePage, event.doc.numPages);
 
     if (sourcePageIndex !== null) {
-      await pageNavigationPluginInstance.jumpToPage(sourcePageIndex);
+      pageNavigationPluginInstance.jumpToPage(sourcePageIndex);
     }
 
     if (!quote) {
@@ -142,18 +136,11 @@ function OpenPdfEvidencePanel({ evidence, onClose }: { evidence: EvidenceTarget;
     >
       <header className="flex items-start justify-between gap-4 border-b border-line px-5 py-4">
         <div className="min-w-0">
-          <div className="text-xs font-semibold uppercase tracking-normal text-slate-500">
-            {evidence.entityType} source
-          </div>
+          <div className="text-xs font-semibold uppercase tracking-normal text-slate-500">{evidence.entityType} source</div>
           <h2 className="mt-1 truncate text-lg font-semibold">{evidence.label}</h2>
           <p className="mt-1 break-words text-sm text-slate-600">{evidence.value}</p>
         </div>
-        <button
-          aria-label="Close evidence panel"
-          className="rounded-md p-2 text-slate-500 hover:bg-slate-100"
-          onClick={onClose}
-          type="button"
-        >
+        <button aria-label="Close evidence panel" className="rounded-md p-2 text-slate-500 hover:bg-slate-100" onClick={onClose} type="button">
           <PanelRightClose className="h-5 w-5" />
         </button>
       </header>
@@ -164,14 +151,12 @@ function OpenPdfEvidencePanel({ evidence, onClose }: { evidence: EvidenceTarget;
             <FileSearch className="h-4 w-4 text-moss" />
             {evidence.filename}
           </div>
-          <div className="break-all text-xs text-slate-500">{evidence.pdfUrl}</div>
+          <div className="break-all text-xs text-slate-500">{evidence.url}</div>
         </section>
 
         <section className="min-w-0 rounded-lg border border-line p-3">
           <div className="mb-2 text-xs font-semibold uppercase tracking-normal text-slate-500">Quoted evidence</div>
-          <blockquote className="max-h-20 overflow-y-auto border-l-2 border-moss pl-3 text-sm text-slate-700">
-            {evidence.quote}
-          </blockquote>
+          <blockquote className="max-h-20 overflow-y-auto border-l-2 border-moss pl-3 text-sm text-slate-700">{evidence.quote}</blockquote>
         </section>
       </div>
 
@@ -185,12 +170,16 @@ function OpenPdfEvidencePanel({ evidence, onClose }: { evidence: EvidenceTarget;
         <div className="min-h-0 flex-1 overflow-hidden" data-testid="pdf-viewer-shell">
           {viewerUrl ? (
             <Worker workerUrl={pdfWorkerUrl}>
-              <Viewer fileUrl={viewerUrl} onDocumentLoad={handleDocumentLoad} plugins={[toolbarPluginInstance]} />
+              <Viewer
+                fileUrl={viewerUrl}
+                onDocumentLoad={(event) => {
+                  void handleDocumentLoad(event);
+                }}
+                plugins={[toolbarPluginInstance]}
+              />
             </Worker>
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-slate-600">
-              {status.status === "error" ? "Unable to load PDF" : "Loading PDF viewer"}
-            </div>
+            <div className="flex h-full items-center justify-center text-sm text-slate-600">{status.status === "error" ? "Unable to load PDF" : "Loading PDF viewer"}</div>
           )}
         </div>
       </div>

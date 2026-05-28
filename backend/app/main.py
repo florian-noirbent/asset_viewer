@@ -5,7 +5,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes.assets import router as assets_router
-from app.api.routes.uploads import router as uploads_router
 from app.core.config import get_settings
 from app.db.session import init_db
 from app.storage.minio_client import get_object_storage
@@ -30,7 +29,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(assets_router)
-app.include_router(uploads_router)
 
 
 @app.get("/health", tags=["system"])
