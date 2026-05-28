@@ -1,0 +1,1976 @@
+[
+  {
+    "asset_id": "d1994ec3-e121-4d5e-adec-014907116986",
+    "asset_name": "Causeway Park",
+    "address": "Wilderspool Causeway, Warrington WA4 6RF",
+    "city": "Warrington",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "",
+    "construction_completed_in": "",
+    "asset_currency": "GBP",
+    "customer_asset_code": "",
+    "property_type": "Multi-let industrial estate",
+    "project_type": "Value Add",
+    "building_area_sf": "143277.8",
+    "building_area_sm": "13310.95606610987",
+    "area_site": "5.81",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "",
+    "height": "5m",
+    "doors_dock": "",
+    "doors_overhead": "",
+    "parking_spaces_cars": "",
+    "parking_spaces_trucks": "",
+    "sprinkler": "",
+    "environmental_rating": "",
+    "asset_rent_gross": "443400.0",
+    "asset_rent_pu": "3.0946873835304562",
+    "rent_roll_date": "",
+    "asset_walt": "4.818366792098418",
+    "asset_walb": "2.884549032692581",
+    "asset_erv": "572481.0",
+    "lease_id": "24421",
+    "lease_type": "",
+    "lease_area_sf": "56239",
+    "lease_area_sm": "5224.779122808648",
+    "area_warehouse": "0",
+    "area_office": "0",
+    "date_start": "2025-05-29T00:00:00Z",
+    "date_expire": "2030-05-28T00:00:00Z",
+    "date_break1": "",
+    "date_break2": "",
+    "next_indexation_date": "",
+    "contracted_indexation": "",
+    "lease_rent_gross": "150000.0",
+    "lease_rent_pu": "2.6671882501466952",
+    "lease_currency": "GBP",
+    "rent_free_months": "",
+    "non_recoverables": "",
+    "void_costs_pa": "",
+    "lease_walt": "4.008219178082192",
+    "lease_walb": "4.008219178082192",
+    "lease_erv": "196837.0",
+    "lessee_name_verbatim": "",
+    "tenant_id": "3316146",
+    "tenant_name": "Chiu Wah Ltd",
+    "tenant_industry": "Food Wholesaler",
+    "signing_entity": "",
+    "asset_provenance": {
+      "city": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 3,
+          "quote": "Freehold",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 4,
+          "quote": "Warrington is one of the most sought after\nindustrial, logistics and trade hubs in the North West,",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 3,
+          "quote": "Headline Rent\n(£ΡΑ)",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_unit": [
+        {
+          "page": 2,
+          "quote": "Causeway Park has a Gross Internal Area of 131,081 sq ft",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_name": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "source_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add\nMulti let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "erv": [
+        {
+          "page": 3,
+          "quote": "£572,481",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 3,
+          "quote": "131,081",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "height": [
+        {
+          "page": 15,
+          "quote": "Average eaves height of 5m",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 3,
+          "quote": "£3.18",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_site": [
+        {
+          "page": 13,
+          "quote": "A substantial site area of 5.81 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 13,
+          "quote": "Fully let to 6 tenants",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 3,
+          "quote": "£443,400",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "building_specs": [
+        {
+          "page": 15,
+          "quote": "4 industrial units of steel / concrete frame construction beneath pitched roofs",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "lease_provenance": {
+      "erv": [
+        {
+          "page": 16,
+          "quote": "£196,837",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 16,
+          "quote": "56,239",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 16,
+          "quote": "£2.67",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 16,
+          "quote": "6 months rent free. Remainder of year 1 - £120k\npa (£60,000). Vendor to top up to headline\nrent of £150k pa. Deposit of £37,500.Personal\nguarantee on lease.",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_start": [
+        {
+          "page": 16,
+          "quote": "29/05/2025",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 16,
+          "quote": "£150,000",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": 16,
+          "quote": "28/05/2030",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": 16,
+          "quote": "Chiu Wah Ltd",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "industry": [
+        {
+          "page": 16,
+          "quote": "Food Wholesaler",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    }
+  },
+  {
+    "asset_id": "d1994ec3-e121-4d5e-adec-014907116986",
+    "asset_name": "Causeway Park",
+    "address": "Wilderspool Causeway, Warrington WA4 6RF",
+    "city": "Warrington",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "",
+    "construction_completed_in": "",
+    "asset_currency": "GBP",
+    "customer_asset_code": "",
+    "property_type": "Multi-let industrial estate",
+    "project_type": "Value Add",
+    "building_area_sf": "143277.8",
+    "building_area_sm": "13310.95606610987",
+    "area_site": "5.81",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "",
+    "height": "5m",
+    "doors_dock": "",
+    "doors_overhead": "",
+    "parking_spaces_cars": "",
+    "parking_spaces_trucks": "",
+    "sprinkler": "",
+    "environmental_rating": "",
+    "asset_rent_gross": "443400.0",
+    "asset_rent_pu": "3.0946873835304562",
+    "rent_roll_date": "",
+    "asset_walt": "4.818366792098418",
+    "asset_walb": "2.884549032692581",
+    "asset_erv": "572481.0",
+    "lease_id": "24422",
+    "lease_type": "",
+    "lease_area_sf": "17786",
+    "lease_area_sm": "1652.3750685160585",
+    "area_warehouse": "0",
+    "area_office": "17786",
+    "date_start": "2023-11-13T00:00:00Z",
+    "date_expire": "2033-11-12T00:00:00Z",
+    "date_break1": "2028-11-13T00:00:00Z",
+    "date_break2": "2029-11-13T00:00:00Z",
+    "next_indexation_date": "",
+    "contracted_indexation": "",
+    "lease_rent_gross": "84900.0",
+    "lease_rent_pu": "4.773417294501293",
+    "lease_currency": "GBP",
+    "rent_free_months": "",
+    "non_recoverables": "",
+    "void_costs_pa": "",
+    "lease_walt": "7.471232876712329",
+    "lease_walb": "2.4712328767123286",
+    "lease_erv": "106716.0",
+    "lessee_name_verbatim": "",
+    "tenant_id": "3316147",
+    "tenant_name": "The Soft Brick Company Ltd",
+    "tenant_industry": "Soft-play Manufacturer",
+    "signing_entity": "",
+    "asset_provenance": {
+      "city": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 3,
+          "quote": "Freehold",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 4,
+          "quote": "Warrington is one of the most sought after\nindustrial, logistics and trade hubs in the North West,",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 3,
+          "quote": "Headline Rent\n(£ΡΑ)",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_unit": [
+        {
+          "page": 2,
+          "quote": "Causeway Park has a Gross Internal Area of 131,081 sq ft",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_name": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "source_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add\nMulti let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "erv": [
+        {
+          "page": 3,
+          "quote": "£572,481",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 3,
+          "quote": "131,081",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "height": [
+        {
+          "page": 15,
+          "quote": "Average eaves height of 5m",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 3,
+          "quote": "£3.18",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_site": [
+        {
+          "page": 13,
+          "quote": "A substantial site area of 5.81 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 13,
+          "quote": "Fully let to 6 tenants",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 3,
+          "quote": "£443,400",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "building_specs": [
+        {
+          "page": 15,
+          "quote": "4 industrial units of steel / concrete frame construction beneath pitched roofs",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "lease_provenance": {
+      "erv": [
+        {
+          "page": 16,
+          "quote": "£106,716",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 16,
+          "quote": "10,382\n3,420\n3,984",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 16,
+          "quote": "£4.77",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 16,
+          "quote": "Fixed rental uplift to £93,280 pa on 13/11/2028.\nBreak penalty information available upon\nrequest.",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_start": [
+        {
+          "page": 16,
+          "quote": "13/11/2023",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 16,
+          "quote": "£84,900",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_break1": [
+        {
+          "page": 16,
+          "quote": "13/11/2028",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_break2": [
+        {
+          "page": 16,
+          "quote": "13/11/2029",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": 16,
+          "quote": "12/11/2033",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": 16,
+          "quote": "The Soft Brick Company Ltd",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "industry": [
+        {
+          "page": 16,
+          "quote": "Soft-play Manufacturer",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    }
+  },
+  {
+    "asset_id": "d1994ec3-e121-4d5e-adec-014907116986",
+    "asset_name": "Causeway Park",
+    "address": "Wilderspool Causeway, Warrington WA4 6RF",
+    "city": "Warrington",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "",
+    "construction_completed_in": "",
+    "asset_currency": "GBP",
+    "customer_asset_code": "",
+    "property_type": "Multi-let industrial estate",
+    "project_type": "Value Add",
+    "building_area_sf": "143277.8",
+    "building_area_sm": "13310.95606610987",
+    "area_site": "5.81",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "",
+    "height": "5m",
+    "doors_dock": "",
+    "doors_overhead": "",
+    "parking_spaces_cars": "",
+    "parking_spaces_trucks": "",
+    "sprinkler": "",
+    "environmental_rating": "",
+    "asset_rent_gross": "443400.0",
+    "asset_rent_pu": "3.0946873835304562",
+    "rent_roll_date": "",
+    "asset_walt": "4.818366792098418",
+    "asset_walb": "2.884549032692581",
+    "asset_erv": "572481.0",
+    "lease_id": "24423",
+    "lease_type": "",
+    "lease_area_sf": "28703",
+    "lease_area_sm": "2666.5985377047355",
+    "area_warehouse": "0",
+    "area_office": "0",
+    "date_start": "2025-03-26T00:00:00Z",
+    "date_expire": "2030-03-24T00:00:00Z",
+    "date_break1": "",
+    "date_break2": "",
+    "next_indexation_date": "",
+    "contracted_indexation": "",
+    "lease_rent_gross": "65000.0",
+    "lease_rent_pu": "2.2645716475629727",
+    "lease_currency": "GBP",
+    "rent_free_months": "",
+    "non_recoverables": "",
+    "void_costs_pa": "",
+    "lease_walt": "3.83013698630137",
+    "lease_walb": "3.83013698630137",
+    "lease_erv": "114812.0",
+    "lessee_name_verbatim": "",
+    "tenant_id": "3316148",
+    "tenant_name": "Snow Property (NW) Ltd",
+    "tenant_industry": "Automotive Solutions",
+    "signing_entity": "",
+    "asset_provenance": {
+      "city": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 3,
+          "quote": "Freehold",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 4,
+          "quote": "Warrington is one of the most sought after\nindustrial, logistics and trade hubs in the North West,",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 3,
+          "quote": "Headline Rent\n(£ΡΑ)",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_unit": [
+        {
+          "page": 2,
+          "quote": "Causeway Park has a Gross Internal Area of 131,081 sq ft",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_name": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "source_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add\nMulti let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "erv": [
+        {
+          "page": 3,
+          "quote": "£572,481",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 3,
+          "quote": "131,081",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "height": [
+        {
+          "page": 15,
+          "quote": "Average eaves height of 5m",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 3,
+          "quote": "£3.18",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_site": [
+        {
+          "page": 13,
+          "quote": "A substantial site area of 5.81 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 13,
+          "quote": "Fully let to 6 tenants",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 3,
+          "quote": "£443,400",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "building_specs": [
+        {
+          "page": 15,
+          "quote": "4 industrial units of steel / concrete frame construction beneath pitched roofs",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "lease_provenance": {
+      "erv": [
+        {
+          "page": 16,
+          "quote": "£114,812",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 16,
+          "quote": "28,703",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 16,
+          "quote": "£2.26",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 16,
+          "quote": "Fixed rental uplift to £93,280 pa on 13/11/2028.\nBreak penalty information available upon\nrequest.",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_start": [
+        {
+          "page": 16,
+          "quote": "26/03/2025",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 16,
+          "quote": "£65,000",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": 16,
+          "quote": "24/03/2030",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": 16,
+          "quote": "Snow Property (NW) Ltd",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "industry": [
+        {
+          "page": 16,
+          "quote": "Automotive Solutions",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    }
+  },
+  {
+    "asset_id": "d1994ec3-e121-4d5e-adec-014907116986",
+    "asset_name": "Causeway Park",
+    "address": "Wilderspool Causeway, Warrington WA4 6RF",
+    "city": "Warrington",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "",
+    "construction_completed_in": "",
+    "asset_currency": "GBP",
+    "customer_asset_code": "",
+    "property_type": "Multi-let industrial estate",
+    "project_type": "Value Add",
+    "building_area_sf": "143277.8",
+    "building_area_sm": "13310.95606610987",
+    "area_site": "5.81",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "",
+    "height": "5m",
+    "doors_dock": "",
+    "doors_overhead": "",
+    "parking_spaces_cars": "",
+    "parking_spaces_trucks": "",
+    "sprinkler": "",
+    "environmental_rating": "",
+    "asset_rent_gross": "443400.0",
+    "asset_rent_pu": "3.0946873835304562",
+    "rent_roll_date": "",
+    "asset_walt": "4.818366792098418",
+    "asset_walb": "2.884549032692581",
+    "asset_erv": "572481.0",
+    "lease_id": "24424",
+    "lease_type": "",
+    "lease_area_sf": "25985",
+    "lease_area_sm": "2414.087830619014",
+    "area_warehouse": "0",
+    "area_office": "0",
+    "date_start": "2024-11-01T00:00:00Z",
+    "date_expire": "2031-10-31T00:00:00Z",
+    "date_break1": "2027-11-01T00:00:00Z",
+    "date_break2": "2029-11-01T00:00:00Z",
+    "next_indexation_date": "",
+    "contracted_indexation": "",
+    "lease_rent_gross": "100000.0",
+    "lease_rent_pu": "3.8483740619588223",
+    "lease_currency": "GBP",
+    "rent_free_months": "",
+    "non_recoverables": "",
+    "void_costs_pa": "",
+    "lease_walt": "5.435616438356164",
+    "lease_walb": "1.4356164383561645",
+    "lease_erv": "103940.0",
+    "lessee_name_verbatim": "",
+    "tenant_id": "3316149",
+    "tenant_name": "Decotex Limited",
+    "tenant_industry": "Textiles Manufacturing",
+    "signing_entity": "",
+    "asset_provenance": {
+      "city": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 3,
+          "quote": "Freehold",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 4,
+          "quote": "Warrington is one of the most sought after\nindustrial, logistics and trade hubs in the North West,",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 3,
+          "quote": "Headline Rent\n(£ΡΑ)",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_unit": [
+        {
+          "page": 2,
+          "quote": "Causeway Park has a Gross Internal Area of 131,081 sq ft",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_name": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "source_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add\nMulti let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "erv": [
+        {
+          "page": 3,
+          "quote": "£572,481",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 3,
+          "quote": "131,081",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "height": [
+        {
+          "page": 15,
+          "quote": "Average eaves height of 5m",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 3,
+          "quote": "£3.18",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_site": [
+        {
+          "page": 13,
+          "quote": "A substantial site area of 5.81 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 13,
+          "quote": "Fully let to 6 tenants",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 3,
+          "quote": "£443,400",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "building_specs": [
+        {
+          "page": 15,
+          "quote": "4 industrial units of steel / concrete frame construction beneath pitched roofs",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "lease_provenance": {
+      "erv": [
+        {
+          "page": 16,
+          "quote": "£103,940",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 16,
+          "quote": "25,985",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 16,
+          "quote": "£3.85",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 16,
+          "quote": "Passing rent of £77.5k pa. Topped up to fixed\nuplift of £100k pa from 01/08/2026. 5th year\nrent review to OMV. Tenant break option in\nyear 3 and 5. Mutual rolling Break option from\n01/11/2030.",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_start": [
+        {
+          "page": 16,
+          "quote": "01/11/2024",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 16,
+          "quote": "£100,000",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_break1": [
+        {
+          "page": 16,
+          "quote": "01/11/2027",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_break2": [
+        {
+          "page": 16,
+          "quote": "01/11/2029",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": 16,
+          "quote": "31/10/2031",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": 16,
+          "quote": "Decotex Limited",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "industry": [
+        {
+          "page": 16,
+          "quote": "Textiles Manufacturing",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    }
+  },
+  {
+    "asset_id": "d1994ec3-e121-4d5e-adec-014907116986",
+    "asset_name": "Causeway Park",
+    "address": "Wilderspool Causeway, Warrington WA4 6RF",
+    "city": "Warrington",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "",
+    "construction_completed_in": "",
+    "asset_currency": "GBP",
+    "customer_asset_code": "",
+    "property_type": "Multi-let industrial estate",
+    "project_type": "Value Add",
+    "building_area_sf": "143277.8",
+    "building_area_sm": "13310.95606610987",
+    "area_site": "5.81",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "",
+    "height": "5m",
+    "doors_dock": "",
+    "doors_overhead": "",
+    "parking_spaces_cars": "",
+    "parking_spaces_trucks": "",
+    "sprinkler": "",
+    "environmental_rating": "",
+    "asset_rent_gross": "443400.0",
+    "asset_rent_pu": "3.0946873835304562",
+    "rent_roll_date": "",
+    "asset_walt": "4.818366792098418",
+    "asset_walb": "2.884549032692581",
+    "asset_erv": "572481.0",
+    "lease_id": "24425",
+    "lease_type": "",
+    "lease_area_sf": "2368",
+    "lease_area_sm": "219.99461161846546",
+    "area_warehouse": "0",
+    "area_office": "0",
+    "date_start": "2024-11-01T00:00:00Z",
+    "date_expire": "2031-10-31T00:00:00Z",
+    "date_break1": "2029-11-01T00:00:00Z",
+    "date_break2": "",
+    "next_indexation_date": "",
+    "contracted_indexation": "",
+    "lease_rent_gross": "16500.0",
+    "lease_rent_pu": "6.967905405405405",
+    "lease_currency": "GBP",
+    "rent_free_months": "",
+    "non_recoverables": "",
+    "void_costs_pa": "",
+    "lease_walt": "5.435616438356164",
+    "lease_walb": "3.4383561643835616",
+    "lease_erv": "16576.0",
+    "lessee_name_verbatim": "",
+    "tenant_id": "3316150",
+    "tenant_name": "Aquaspray Ltd",
+    "tenant_industry": "Cleaning Equipment Wholesaler",
+    "signing_entity": "",
+    "asset_provenance": {
+      "city": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 3,
+          "quote": "Freehold",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 4,
+          "quote": "Warrington is one of the most sought after\nindustrial, logistics and trade hubs in the North West,",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 3,
+          "quote": "Headline Rent\n(£ΡΑ)",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_unit": [
+        {
+          "page": 2,
+          "quote": "Causeway Park has a Gross Internal Area of 131,081 sq ft",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_name": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "source_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add\nMulti let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "erv": [
+        {
+          "page": 3,
+          "quote": "£572,481",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 3,
+          "quote": "131,081",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "height": [
+        {
+          "page": 15,
+          "quote": "Average eaves height of 5m",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 3,
+          "quote": "£3.18",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_site": [
+        {
+          "page": 13,
+          "quote": "A substantial site area of 5.81 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 13,
+          "quote": "Fully let to 6 tenants",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 3,
+          "quote": "£443,400",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "building_specs": [
+        {
+          "page": 15,
+          "quote": "4 industrial units of steel / concrete frame construction beneath pitched roofs",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "lease_provenance": {
+      "erv": [
+        {
+          "page": 16,
+          "quote": "£16,576",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 16,
+          "quote": "2,368",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 16,
+          "quote": "£6.97",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 16,
+          "quote": "OMV Rent Review in 2027. Tenant break option\n01/11/2029. Mutual rolling break from 2030.",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_start": [
+        {
+          "page": 16,
+          "quote": "01/11/2024",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 16,
+          "quote": "£16,500",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_break1": [
+        {
+          "page": 16,
+          "quote": "01/11/2029",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": 16,
+          "quote": "31/10/2031",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": 16,
+          "quote": "Aquaspray Ltd",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "industry": [
+        {
+          "page": 16,
+          "quote": "Cleaning Equipment Wholesaler",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    }
+  },
+  {
+    "asset_id": "d1994ec3-e121-4d5e-adec-014907116986",
+    "asset_name": "Causeway Park",
+    "address": "Wilderspool Causeway, Warrington WA4 6RF",
+    "city": "Warrington",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "",
+    "construction_completed_in": "",
+    "asset_currency": "GBP",
+    "customer_asset_code": "",
+    "property_type": "Multi-let industrial estate",
+    "project_type": "Value Add",
+    "building_area_sf": "143277.8",
+    "building_area_sm": "13310.95606610987",
+    "area_site": "5.81",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "",
+    "height": "5m",
+    "doors_dock": "",
+    "doors_overhead": "",
+    "parking_spaces_cars": "",
+    "parking_spaces_trucks": "",
+    "sprinkler": "",
+    "environmental_rating": "",
+    "asset_rent_gross": "443400.0",
+    "asset_rent_pu": "3.0946873835304562",
+    "rent_roll_date": "",
+    "asset_walt": "4.818366792098418",
+    "asset_walb": "2.884549032692581",
+    "asset_erv": "572481.0",
+    "lease_id": "24426",
+    "lease_type": "",
+    "lease_area_sf": "12196.800000000001",
+    "lease_area_sm": "1133.1208948429476",
+    "area_warehouse": "0",
+    "area_office": "0",
+    "date_start": "2022-02-04T00:00:00Z",
+    "date_expire": "2027-02-03T00:00:00Z",
+    "date_break1": "",
+    "date_break2": "",
+    "next_indexation_date": "",
+    "contracted_indexation": "",
+    "lease_rent_gross": "27000.0",
+    "lease_rent_pu": "2.213695395513577",
+    "lease_currency": "GBP",
+    "rent_free_months": "",
+    "non_recoverables": "",
+    "void_costs_pa": "",
+    "lease_walt": "0.6931506849315069",
+    "lease_walb": "0.6931506849315069",
+    "lease_erv": "33600.0",
+    "lessee_name_verbatim": "",
+    "tenant_id": "ec9db57b-80ee-47f4-a4e3-983bdb3a3d79",
+    "tenant_name": "Ahmed Abdullah Babakir",
+    "tenant_industry": "Car Wash",
+    "signing_entity": "",
+    "asset_provenance": {
+      "city": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 3,
+          "quote": "Freehold",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 4,
+          "quote": "Warrington is one of the most sought after\nindustrial, logistics and trade hubs in the North West,",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 3,
+          "quote": "Headline Rent\n(£ΡΑ)",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_unit": [
+        {
+          "page": 2,
+          "quote": "Causeway Park has a Gross Internal Area of 131,081 sq ft",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_name": [
+        {
+          "page": 2,
+          "quote": "2 Causeway Park\nWilderspool Causeway,\nWarrington WA4 6RF",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "source_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add\nMulti let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "erv": [
+        {
+          "page": 3,
+          "quote": "£572,481",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 3,
+          "quote": "131,081",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "height": [
+        {
+          "page": 15,
+          "quote": "Average eaves height of 5m",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 3,
+          "quote": "£3.18",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_site": [
+        {
+          "page": 13,
+          "quote": "A substantial site area of 5.81 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 13,
+          "quote": "Fully let to 6 tenants",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 3,
+          "quote": "£443,400",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": 1,
+          "quote": "Two Highly Reversionary, Value Add",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Multi let Industrial Estates",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "building_specs": [
+        {
+          "page": 15,
+          "quote": "4 industrial units of steel / concrete frame construction beneath pitched roofs",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "lease_provenance": {
+      "erv": [
+        {
+          "page": 16,
+          "quote": "£33,600",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": 16,
+          "quote": "0.28 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": 16,
+          "quote": "£96,429 per\nacre",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 16,
+          "quote": "Outstanding OMV Rent Review from Feb 2025.",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area_unit": [
+        {
+          "page": 16,
+          "quote": "0.28 acres",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_start": [
+        {
+          "page": 16,
+          "quote": "04/02/2022",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 16,
+          "quote": "£27,000",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": 16,
+          "quote": "03/02/2027",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": 16,
+          "quote": "Ahmed Abdullah Babakir",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "industry": [
+        {
+          "page": 16,
+          "quote": "Car Wash",
+          "sheet": null,
+          "document": "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf",
+          "source_type": "pdf"
+        }
+      ]
+    }
+  }
+]

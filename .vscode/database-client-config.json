@@ -1,0 +1,40 @@
+{
+    "database": {
+        "1779960000000": {
+            "key": "1779960000000",
+            "isTreeNode": true,
+            "host": "localhost",
+            "port": 5433,
+            "user": "gocanopy",
+            "password": "dbclient_a$4XX8i3xxshjozSxUW5Awjw==",
+            "dbType": "PostgreSQL",
+            "database": "gocanopy",
+            "name": "GoCanopy Postgres",
+            "advance": {
+                "idleConfig": {
+                    "enable": true
+                },
+                "hideSystemSchema": true,
+                "groupingTables": false,
+                "loadMetaDataWhenExpandTreeView": true
+            },
+            "treeFeatures": [],
+            "usingSSH": false,
+            "useSocksProxy": false,
+            "useHTTPProxy": false,
+            "global": false,
+            "savePassword": "Forever",
+            "readonly": false,
+            "sort": 14,
+            "useSSL": false,
+            "fs": {
+                "encoding": "utf8",
+                "showHidden": true
+            },
+            "connectionKey": "database.connections",
+            "disable": true
+        }
+    },
+    "nosql": {},
+    "$schema": "https://cdn.database-client.com/dbclient/schema.json"
+}

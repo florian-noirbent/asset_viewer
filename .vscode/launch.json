@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "GoCanopy: Open Frontend",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "preLaunchTask": "docker compose up"
+    },
+    {
+      "name": "GoCanopy: Open API Docs",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:8000/docs",
+      "preLaunchTask": "docker compose up"
+    },
+    {
+      "name": "GoCanopy: Open MinIO Console",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:9001",
+      "preLaunchTask": "docker compose up"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "GoCanopy: Full Stack",
+      "configurations": [
+        "GoCanopy: Open Frontend",
+        "GoCanopy: Open API Docs",
+        "GoCanopy: Open MinIO Console"
+      ],
+      "stopAll": false
+    }
+  ]
+}
