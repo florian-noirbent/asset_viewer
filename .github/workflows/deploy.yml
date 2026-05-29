@@ -1,0 +1,59 @@
+name: Deploy to VPS
+
+on:
+  workflow_run:
+    workflows:
+      - Build
+    types:
+      - completed
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  deploy:
+    name: Deploy on Runner Host
+    runs-on: [self-hosted, rserver]
+    if: ${{ github.event.workflow_run.conclusion == 'success' && (github.event.workflow_run.head_branch == 'master' || github.event.workflow_run.head_branch == 'develop') }}
+
+    steps:
+      - name: Determine environment and image tags
+        id: env
+        run: |
+          BRANCH=${{ github.event.workflow_run.head_branch }}
+          SHA_SHORT=$(echo ${{ github.event.workflow_run.head_sha }} | cut -c1-7)
+          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+          echo "sha=${SHA_SHORT}" >> $GITHUB_OUTPUT
+          if [ "${BRANCH}" = "master" ]; then
+            echo "environment=production" >> $GITHUB_OUTPUT
+          else
+            echo "environment=staging" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Docker login
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+
+      - name: Pull images
+        run: |
+          REG=${{ env.REGISTRY }}
+          IMG_BASE=${{ env.IMAGE_NAME }}
+          BR=${{ steps.env.outputs.branch }}
+          SH=${{ steps.env.outputs.sha }}
+          echo "Pulling images for ${BR}-${SH}"
+          docker pull ${REG}/${IMG_BASE}-backend:${BR}-${SH}-rserver
+          docker pull ${REG}/${IMG_BASE}-frontend:${BR}-${SH}-rserver
+
+      - name: Restart compose stack
+        run: |
+          echo "Stopping existing compose stack (if any)"
+          docker compose -f /app/docker-compose.prod.yml down || true
+          echo "Starting compose stack with rserver images"
+          BACKEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver \
+          FRONTEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver \
+          docker compose -f /app/docker-compose.prod.yml up -d
+
+      - name: Verify deployment
+        run: |
+          docker compose -f /app/docker-compose.prod.yml ps

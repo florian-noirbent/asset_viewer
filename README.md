@@ -122,3 +122,7 @@ Out of scope for this POC slice:
 - Authentication and authorization
 - Websocket notifications
 - Editing or patch history workflows
+
+## Deployment
+
+See the [Deployment Guide](docs/DEPLOYMENT.md) for CI, self-hosted runner, and VPS deployment instructions.

@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-gocanopy}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-gocanopy}
+      POSTGRES_DB: ${POSTGRES_DB:-gocanopy}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-gocanopy}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gocanopy
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_API_CORS_ALLOW_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost}
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gocanopy
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-assets}
+    entrypoint: >
+      /bin/sh -c '
+        mc alias set local http://minio:9000 "$${MINIO_ACCESS_KEY}" "$${MINIO_SECRET_KEY}";
+        mc mb --ignore-existing "local/$${MINIO_BUCKET}";
+      '
+    networks:
+      - gocanopy
+
+  backend:
+    image: ${BACKEND_IMAGE}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-gocanopy}:${POSTGRES_PASSWORD:-gocanopy}@postgres:5432/${POSTGRES_DB:-gocanopy}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-assets}
+      MINIO_SECURE: ${MINIO_SECURE:-false}
+    ports:
+      - "8000:8000"
+    networks:
+      - gocanopy
+
+  frontend:
+    image: ${FRONTEND_IMAGE}
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    ports:
+      - "5173:5173"
+    networks:
+      - gocanopy
+
+volumes:
+  postgres_data:
+  minio_data:
+
+networks:
+  gocanopy:
+    driver: bridge
