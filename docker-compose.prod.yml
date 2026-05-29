@@ -23,7 +23,7 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
-      MINIO_API_CORS_ALLOW_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost}
+      MINIO_API_CORS_ALLOW_ORIGIN: ${FRONTEND_ORIGIN:-https://assetviewer.nofl.uk}
     volumes:
       - minio_data:/data
     healthcheck:
@@ -66,7 +66,10 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-assets}
       MINIO_SECURE: ${MINIO_SECURE:-false}
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-assetviewer.nofl.uk}
+      MINIO_PUBLIC_SECURE: ${MINIO_PUBLIC_SECURE:-true}
       BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-https://assetviewer.nofl.uk}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-https://assetviewer.nofl.uk}
     ports:
       - "8000:8000"
     networks:
@@ -97,6 +100,8 @@ services:
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-assets}
       MINIO_SECURE: ${MINIO_SECURE:-false}
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-assetviewer.nofl.uk}
+      MINIO_PUBLIC_SECURE: ${MINIO_PUBLIC_SECURE:-true}
     volumes:
       - ./ressources:/app/ressources:ro
     command: uv run --no-dev python -m app.db.init_from_json

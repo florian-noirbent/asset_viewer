@@ -113,6 +113,7 @@ class ProvenanceService:
         return fields
 
     def normalize_provenance(self, raw_items: JsonValue, base_url: str, file_indexes: dict[str, FileIndex]) -> list[ProvenanceDTO]:
+        external_base_url = (self.settings.public_base_url or base_url).rstrip("/")
         if isinstance(raw_items, dict):
             items: Iterable[ProvenanceItem] = [raw_items]
         elif isinstance(raw_items, list):
@@ -127,7 +128,7 @@ class ProvenanceService:
             source_url = None
             refresh_url = None
             if document and source_type == "pdf":
-                refresh_url = f"{base_url.rstrip('/')}/api/resources/{quote(document)}/url"
+                refresh_url = f"{external_base_url}/api/resources/{quote(document)}/url"
                 file_index = file_indexes.get(safe_filename(document))
                 if file_index:
                     try:

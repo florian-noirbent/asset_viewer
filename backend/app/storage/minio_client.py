@@ -45,7 +45,7 @@ class ObjectStorage:
             self.settings.minio_public_endpoint,
             access_key=self.settings.minio_access_key,
             secret_key=self.settings.minio_secret_key,
-            secure=self.settings.minio_secure,
+            secure=self.settings.resolved_minio_public_secure,
             region=self.settings.minio_region,
         )
 

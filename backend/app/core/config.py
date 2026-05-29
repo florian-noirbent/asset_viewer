@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     )
     minio_endpoint: str = Field(default="localhost:9000", validation_alias="MINIO_ENDPOINT")
     minio_public_endpoint: str = Field(default="localhost:9000", validation_alias="MINIO_PUBLIC_ENDPOINT")
+    minio_public_secure: bool | None = Field(default=None, validation_alias="MINIO_PUBLIC_SECURE")
     minio_access_key: str = Field(default="minioadmin", validation_alias="MINIO_ACCESS_KEY")
     minio_secret_key: str = Field(default="minioadmin", validation_alias="MINIO_SECRET_KEY")
     minio_bucket: str = Field(default="assets", validation_alias="MINIO_BUCKET")
@@ -18,6 +19,7 @@ class Settings(BaseSettings):
     minio_region: str = Field(default="us-east-1", validation_alias="MINIO_REGION")
     minio_presigned_url_expires_seconds: int = Field(default=900, validation_alias="MINIO_PRESIGNED_URL_EXPIRES_SECONDS")
     backend_cors_origins: str = Field(default="http://localhost:5173", validation_alias="BACKEND_CORS_ORIGINS")
+    public_base_url: str | None = Field(default=None, validation_alias="PUBLIC_BASE_URL")
     skip_startup_checks: bool = Field(default=False, validation_alias="GOCANOPY_SKIP_STARTUP")
     otel_enabled: bool = Field(default=False, validation_alias="GOCANOPY_OTEL_ENABLED")
 
@@ -26,6 +28,10 @@ class Settings(BaseSettings):
     @property
     def cors_origins(self) -> list[str]:
         return [origin.strip() for origin in self.backend_cors_origins.split(",") if origin.strip()]
+
+    @property
+    def resolved_minio_public_secure(self) -> bool:
+        return self.minio_secure if self.minio_public_secure is None else self.minio_public_secure
 
 
 @lru_cache
