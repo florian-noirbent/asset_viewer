@@ -22,7 +22,7 @@
     {
       "label": "backend tests",
       "type": "shell",
-      "command": "$env:GOCANOPY_SKIP_STARTUP='true'; python -m pytest -q",
+      "command": "$env:GOCANOPY_SKIP_STARTUP='true'; uv run pytest -q",
       "options": {
         "cwd": "${workspaceFolder}/backend"
       },

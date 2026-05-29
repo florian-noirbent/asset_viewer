@@ -1,12 +1,14 @@
+from collections.abc import Sequence
 from datetime import timezone
 from decimal import Decimal
 from pathlib import Path
-from typing import Any
 import uuid
 
-import pytest
 
-from app.storage.minio_client import UploadedObject, safe_filename
+import pytest
+from sqlalchemy.orm.interfaces import ORMOption
+
+from app.db import init_from_json
 from app.db.init_from_json import (
     DEFAULT_PDF_FILENAME,
     build_seed_records,
@@ -16,10 +18,12 @@ from app.db.init_from_json import (
     parse_nullable_string,
     resolve_pdf_path,
     resource_file_id,
+    seed_database_from_json,
     seed_resource_pdf,
     seed_session,
 )
 from app.db.models import Asset, FileIndex, Lease, Tenant
+from app.storage.minio_client import UploadedObject, safe_filename
 
 RESOURCE_JSON = Path(__file__).resolve().parents[2] / "ressources" / "warrington_test_data.json"
 RESOURCE_PDF = Path(__file__).resolve().parents[2] / "ressources" / DEFAULT_PDF_FILENAME
@@ -33,19 +37,19 @@ class FakeSeedSession:
         self.files: dict[uuid.UUID, FileIndex] = {}
         self.commits = 0
 
-    async def merge(self, row: object) -> Any:
-        if isinstance(row, Asset):
-            self.assets[row.id] = row
-        elif isinstance(row, Tenant):
-            self.tenants[row.id] = row
-        elif isinstance(row, Lease):
-            self.leases[row.id] = row
-        elif isinstance(row, FileIndex):
-            self.files[row.id] = row
+    async def merge(self, instance: object, *, load: bool = True, options: Sequence[ORMOption] | None = None) -> object:
+        if isinstance(instance, Asset):
+            self.assets[instance.id] = instance
+        elif isinstance(instance, Tenant):
+            self.tenants[instance.id] = instance
+        elif isinstance(instance, Lease):
+            self.leases[instance.id] = instance
+        elif isinstance(instance, FileIndex):
+            self.files[instance.id] = instance
         else:
-            raise TypeError(f"Unexpected row type {type(row)!r}")
+            raise TypeError(f"Unexpected row type {type(instance)!r}")
 
-        return row
+        return instance
 
     async def commit(self) -> None:
         self.commits += 1
@@ -73,6 +77,25 @@ class FakeStorage:
             bucket=self.settings.minio_bucket,
             object_key=object_key,
         )
+
+
+class FakeSessionContext:
+    def __init__(self, session: FakeSeedSession) -> None:
+        self.session = session
+
+    async def __aenter__(self) -> FakeSeedSession:
+        return self.session
+
+    async def __aexit__(self, exc_type: object, exc: object, traceback: object) -> None:
+        return None
+
+
+class FakeSessionMaker:
+    def __init__(self, session: FakeSeedSession) -> None:
+        self.session = session
+
+    def __call__(self) -> FakeSessionContext:
+        return FakeSessionContext(self.session)
 
 
 def test_parse_empty_string_to_none() -> None:
@@ -139,3 +162,19 @@ async def test_seed_resource_pdf_uploads_and_upserts_file_index() -> None:
     assert first.id == resource_file_id(first.object_key)
     assert storage.objects[first.object_key].startswith(b"%PDF")
     assert session.commits == 2
+
+
+@pytest.mark.asyncio
+async def test_seed_database_from_json_seeds_content_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    session = FakeSeedSession()
+    storage = FakeStorage()
+
+    monkeypatch.setattr(init_from_json, "get_sessionmaker", lambda: FakeSessionMaker(session))
+    monkeypatch.setattr(init_from_json, "get_object_storage", lambda: storage)
+    monkeypatch.setattr(init_from_json, "resolve_pdf_path", lambda path: RESOURCE_PDF)
+
+    records = await seed_database_from_json(RESOURCE_JSON)
+
+    assert len(records.assets) == 1
+    assert len(session.assets) == 1
+    assert len(session.files) == 1

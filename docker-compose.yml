@@ -61,17 +61,50 @@ services:
       MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-localhost:9000}
       MINIO_PRESIGNED_URL_EXPIRES_SECONDS: ${MINIO_PRESIGNED_URL_EXPIRES_SECONDS:-900}
       BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-http://localhost:5173}
+      GOCANOPY_SKIP_STARTUP: ${GOCANOPY_SKIP_STARTUP:-false}
+      GOCANOPY_OTEL_ENABLED: ${GOCANOPY_OTEL_ENABLED:-false}
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
       - ./ressources:/app/ressources:ro
     depends_on:
-      postgres:
-        condition: service_healthy
+      backend-init:
+        condition: service_completed_successfully
       minio-init:
         condition: service_completed_successfully
     command: uv run --no-dev uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  backend-migrate:
+    build: ./backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://gocanopy:gocanopy@postgres:5432/gocanopy}
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: uv run --no-dev alembic upgrade head
+
+  backend-init:
+    build: ./backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://gocanopy:gocanopy@postgres:5432/gocanopy}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-assets}
+      MINIO_SECURE: ${MINIO_SECURE:-false}
+      MINIO_REGION: ${MINIO_REGION:-us-east-1}
+    volumes:
+      - ./backend:/app
+      - ./ressources:/app/ressources:ro
+    depends_on:
+      backend-migrate:
+        condition: service_completed_successfully
+      minio-init:
+        condition: service_completed_successfully
+    command: uv run --no-dev python -m app.db.init_from_json
 
   frontend:
     build: ./frontend

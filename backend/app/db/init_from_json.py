@@ -2,15 +2,18 @@ import argparse
 import asyncio
 import json
 import uuid
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
-from typing import Any, Protocol, cast
+from typing import Any, Protocol
 
-import anyio
+from anyio.to_thread import run_sync
+from sqlalchemy.orm.interfaces import ORMOption
+
 from app.db.models import Asset, FileIndex, Lease, Tenant
-from app.db.session import get_sessionmaker, init_db
+from app.db.session import get_sessionmaker
 from app.storage.minio_client import get_object_storage
 
 DEFAULT_JSON_PATH = Path("/app/ressources/warrington_test_data.json")
@@ -26,7 +29,7 @@ class SeedRecords:
 
 
 class SeedSession(Protocol):
-    async def merge(self, row: object) -> Any: ...
+    async def merge(self, instance: object, *, load: bool = True, options: Sequence[ORMOption] | None = None) -> object: ...
 
     async def commit(self) -> None: ...
 
@@ -198,7 +201,7 @@ async def seed_resource_pdf(
     storage: ResourceStorage,
     pdf_path: Path,
 ) -> FileIndex:
-    uploaded = await anyio.to_thread.run_sync(storage.upload_local_pdf, pdf_path, RESOURCE_OBJECT_PREFIX)
+    uploaded = await run_sync(storage.upload_local_pdf, pdf_path, RESOURCE_OBJECT_PREFIX)
     row = FileIndex(
         id=resource_file_id(uploaded.object_key),
         filename=uploaded.filename,
@@ -210,17 +213,21 @@ async def seed_resource_pdf(
     )
     merged = await session.merge(row)
     await session.commit()
-    return cast(FileIndex, merged)
+    if not isinstance(merged, FileIndex):
+        raise TypeError(f"Expected merged FileIndex, got {type(merged)!r}")
+    return merged
 
 
-async def initialize_database_from_json(path: Path) -> SeedRecords:
-    await init_db()
+async def seed_database_from_json(path: Path) -> SeedRecords:
     rows = load_json_rows(path)
 
     async with get_sessionmaker()() as session:
         records = await seed_session(session, rows)
         await seed_resource_pdf(session, get_object_storage(), resolve_pdf_path(path))
         return records
+
+
+initialize_database_from_json = seed_database_from_json
 
 
 def resolve_pdf_path(json_path: Path) -> Path:
@@ -272,8 +279,8 @@ def parse_args() -> argparse.Namespace:
 
 async def async_main() -> None:
     args = parse_args()
-    records = await initialize_database_from_json(args.json_path)
-    print(f"Initialized database from JSON: {len(records.assets)} assets, {len(records.tenants)} tenants, {len(records.leases)} leases")
+    records = await seed_database_from_json(args.json_path)
+    print(f"Seeded database from JSON: {len(records.assets)} assets, {len(records.tenants)} tenants, {len(records.leases)} leases")
 
 
 def main() -> None:

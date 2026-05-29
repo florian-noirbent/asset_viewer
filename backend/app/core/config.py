@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     minio_presigned_url_expires_seconds: int = Field(default=900, validation_alias="MINIO_PRESIGNED_URL_EXPIRES_SECONDS")
     backend_cors_origins: str = Field(default="http://localhost:5173", validation_alias="BACKEND_CORS_ORIGINS")
     skip_startup_checks: bool = Field(default=False, validation_alias="GOCANOPY_SKIP_STARTUP")
+    otel_enabled: bool = Field(default=False, validation_alias="GOCANOPY_OTEL_ENABLED")
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
 

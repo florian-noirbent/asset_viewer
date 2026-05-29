@@ -1,177 +1,163 @@
 import os
 import uuid
-from collections.abc import AsyncGenerator
-from decimal import Decimal
-from typing import Any, cast
+from pathlib import Path
 
 os.environ["GOCANOPY_SKIP_STARTUP"] = "true"
 
-from fastapi.testclient import TestClient
+from litestar import Litestar
+from litestar.testing import TestClient
 
-from app.db.models import Asset, FileIndex, Lease, Tenant
-from app.db.session import get_db_session
-from app.main import app
-from app.storage.minio_client import get_object_storage, safe_filename
+from app.api.dto import AssetDetailDTO, AssetFieldDTO, AssetSummaryDTO, LeaseDTO, ProvenanceDTO, ResourceUrlDTO, TenantSummaryDTO
+from app.core.config import Settings
+from app.main import create_app
+from app.services.assets import AssetService
+from app.services.exceptions import AssetNotFoundError, ResourceNotFoundError
+from app.services.resources import ResourceService
+from app.storage.minio_client import UploadedObject, safe_filename
 
 ASSET_ID = uuid.UUID("d1994ec3-e121-4d5e-adec-014907116986")
 PDF_FILENAME = "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf"
 SAFE_PDF_FILENAME = safe_filename(PDF_FILENAME)
+RESOURCE_OBJECT_KEY = f"resources/{SAFE_PDF_FILENAME}"
+PRESIGNED_URL = f"http://localhost:9000/assets/{RESOURCE_OBJECT_KEY}?X-Amz-Expires=900"
 
 
-class FakeScalarResult:
-    def __init__(self, rows: list[Any]) -> None:
-        self.rows = rows
+class FakeAssetService(AssetService):
+    def __init__(
+        self,
+        summaries: list[AssetSummaryDTO] | None = None,
+        detail: AssetDetailDTO | None = None,
+        missing: bool = False,
+    ) -> None:
+        self.summaries = summaries or []
+        self.detail = detail
+        self.missing = missing
 
-    def all(self) -> list[Any]:
-        return self.rows
+    async def list_assets(self) -> list[AssetSummaryDTO]:
+        return self.summaries
 
-    def first(self) -> Any | None:
-        return self.rows[0] if self.rows else None
-
-
-class FakeResult:
-    def __init__(self, rows: list[Any]) -> None:
-        self.rows = rows
-
-    def scalars(self) -> FakeScalarResult:
-        return FakeScalarResult(self.rows)
-
-    def all(self) -> list[Any]:
-        return self.rows
+    async def get_asset_detail(self, asset_id: uuid.UUID, base_url: str) -> AssetDetailDTO:
+        if self.missing or self.detail is None:
+            raise AssetNotFoundError
+        return self.detail
 
 
-class FakeSession:
-    def __init__(self, asset: Asset | None = None, lease_rows: list[tuple[Lease, Tenant]] | None = None, file_index: FileIndex | None = None) -> None:
-        self.asset = asset
-        self.lease_rows = lease_rows or []
-        self.file_index = file_index
+class FakeResourceService(ResourceService):
+    def __init__(self, response: ResourceUrlDTO | None = None, missing: bool = False) -> None:
+        self.response = response
+        self.missing = missing
 
-    async def get(self, model: type[object], row_id: object) -> Asset | None:
-        if model is Asset and row_id == ASSET_ID:
-            return self.asset
-        return None
-
-    async def execute(self, statement: Any) -> FakeResult:
-        entity = statement.column_descriptions[0].get("entity")
-        if entity is FileIndex:
-            return FakeResult([self.file_index] if self.file_index else [])
-        if entity is Lease and self.asset and self.lease_rows:
-            return FakeResult(self.lease_rows)
-        if entity is Asset and self.asset:
-            return FakeResult([self.asset])
-        return FakeResult([])
+    async def get_resource_pdf_url(self, filename: str) -> ResourceUrlDTO:
+        if self.missing or self.response is None:
+            raise ResourceNotFoundError
+        return self.response
 
 
 class FakeStorage:
-    def __init__(self, fail: bool = False, missing: bool = False) -> None:
-        self.fail = fail
-        self.missing = missing
+    def ensure_bucket(self, retries: int = 10, delay_seconds: float = 1.0) -> None:
+        return None
 
     def object_exists(self, object_key: str) -> bool:
-        return not self.missing and bool(object_key)
+        return True
 
     def presigned_get_url(self, object_key: str, expires_seconds: int) -> str:
-        if self.fail:
-            raise FileNotFoundError(object_key)
-        return f"http://localhost:9000/assets/{object_key}?X-Amz-Expires={expires_seconds}"
+        return PRESIGNED_URL
+
+    def upload_local_pdf(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
+        raise NotImplementedError
 
 
-def make_asset() -> Asset:
-    return Asset(
-        id=ASSET_ID,
+def make_test_app(
+    asset_service: AssetService | None = None,
+    resource_service: ResourceService | None = None,
+) -> Litestar:
+    return create_app(
+        settings=Settings(
+            database_url="postgresql+asyncpg://test:test@localhost/test",
+            minio_bucket="assets",
+            skip_startup_checks=True,
+        ),
+        storage=FakeStorage(),
+        asset_service_provider=lambda: asset_service or FakeAssetService(),
+        resource_service_provider=lambda: resource_service or FakeResourceService(),
+    )
+
+
+def make_asset_summary() -> AssetSummaryDTO:
+    return AssetSummaryDTO(
+        id=str(ASSET_ID),
         name="Causeway Park",
         address="Wilderspool Causeway, Warrington WA4 6RF",
         city="Warrington",
         country="United Kingdom",
-        asset_type="Logistics",
-        tenure="Freehold",
+        assetType="Logistics",
+        propertyType="Multi-let industrial estate",
         currency="GBP",
-        property_type="Multi-let industrial estate",
-        project_type="Value Add",
-        building_area_sf=Decimal("143277.8"),
-        building_area_sm=Decimal("13310.95606610987"),
-        area_site=Decimal("5.81"),
-        area_vacant=Decimal("0"),
-        building_occupancy=Decimal("1.0"),
-        height="5m",
-        rent_gross=Decimal("443400.0"),
-        rent_pu=Decimal("3.0946873835304562"),
-        walt=Decimal("4.818366792098418"),
-        walb=Decimal("2.884549032692581"),
-        erv=Decimal("572481.0"),
-        asset_provenance={
-            "asset_name": [
-                {
-                    "page": 2,
-                    "quote": "Causeway Park",
-                    "document": PDF_FILENAME,
-                    "source_type": "pdf",
-                }
-            ]
-        },
-        logistics_provenance={
-            "area": [
-                {
-                    "page": 3,
-                    "quote": "143,277.8 sq ft",
-                    "document": PDF_FILENAME,
-                    "source_type": "pdf",
-                }
-            ]
-        },
     )
 
 
-def make_lease_rows() -> list[tuple[Lease, Tenant]]:
-    tenant = Tenant(
-        id="3316146",
-        name="Chiu Wah Ltd",
-        industry="Food Wholesaler",
-        tenant_provenance={"name": [{"quote": "Chiu Wah Ltd"}]},
+def make_asset_detail() -> AssetDetailDTO:
+    summary = make_asset_summary()
+    return AssetDetailDTO(
+        id=summary.id,
+        name=summary.name,
+        address=summary.address,
+        city=summary.city,
+        country=summary.country,
+        assetType=summary.assetType,
+        propertyType=summary.propertyType,
+        currency=summary.currency,
+        fields=[
+            AssetFieldDTO(
+                fieldPath="asset.name",
+                label="Asset name",
+                value="Causeway Park",
+                provenance=[
+                    ProvenanceDTO(
+                        document=PDF_FILENAME,
+                        quote="Causeway Park",
+                        page=2,
+                        sheet=None,
+                        sourceType="pdf",
+                        url=PRESIGNED_URL,
+                        refreshUrl=f"http://testserver.local/api/resources/{PDF_FILENAME.replace(' ', '%20').replace('(', '%28').replace(')', '%29')}/url",
+                        expiresInSeconds=900,
+                    )
+                ],
+            )
+        ],
+        leases=[
+            LeaseDTO(
+                id="24421",
+                tenant=TenantSummaryDTO(id="3316146", name="Chiu Wah Ltd", industry="Food Wholesaler"),
+                fields=[
+                    AssetFieldDTO(
+                        fieldPath="lease.rent_gross",
+                        label="Gross rent",
+                        value="150000",
+                        provenance=[
+                            ProvenanceDTO(
+                                document=PDF_FILENAME,
+                                quote="150,000",
+                                page=12,
+                                sheet=None,
+                                sourceType="pdf",
+                                url=PRESIGNED_URL,
+                                refreshUrl=f"http://testserver.local/api/resources/{PDF_FILENAME.replace(' ', '%20').replace('(', '%28').replace(')', '%29')}/url",
+                                expiresInSeconds=900,
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
     )
-    lease = Lease(
-        id="24421",
-        asset_id=ASSET_ID,
-        tenant_id=tenant.id,
-        area_sf=Decimal("56239"),
-        date_start=None,
-        date_expire=None,
-        rent_gross=Decimal("150000.0"),
-        currency="GBP",
-        erv=Decimal("196837.0"),
-        lease_provenance={
-            "rent_gross": [
-                {
-                    "page": 12,
-                    "quote": "150,000",
-                    "document": PDF_FILENAME,
-                    "source_type": "pdf",
-                }
-            ]
-        },
-    )
-    return [(lease, tenant)]
-
-
-def override_session(fake_session: FakeSession) -> None:
-    async def _override() -> AsyncGenerator[FakeSession, None]:
-        yield fake_session
-
-    app.dependency_overrides[get_db_session] = cast(Any, _override)
-
-
-def override_storage(fake_storage: FakeStorage) -> None:
-    app.dependency_overrides[get_object_storage] = lambda: fake_storage
-
-
-def teardown_function() -> None:
-    app.dependency_overrides.clear()
 
 
 def test_list_assets_returns_asset_summary() -> None:
-    override_session(FakeSession(asset=make_asset()))
+    asset_service = FakeAssetService(summaries=[make_asset_summary()])
 
-    with TestClient(app) as client:
+    with TestClient(make_test_app(asset_service=asset_service)) as client:
         response = client.get("/api/assets")
 
     assert response.status_code == 200
@@ -181,19 +167,9 @@ def test_list_assets_returns_asset_summary() -> None:
 
 
 def test_asset_detail_returns_fields_leases_and_provenance() -> None:
-    file_index = FileIndex(
-        id=uuid.uuid4(),
-        filename=SAFE_PDF_FILENAME,
-        content_type="application/pdf",
-        size_bytes=13,
-        bucket="assets",
-        object_key=f"resources/{SAFE_PDF_FILENAME}",
-        status="uploaded",
-    )
-    override_session(FakeSession(asset=make_asset(), lease_rows=make_lease_rows(), file_index=file_index))
-    override_storage(FakeStorage())
+    asset_service = FakeAssetService(detail=make_asset_detail())
 
-    with TestClient(app) as client:
+    with TestClient(make_test_app(asset_service=asset_service)) as client:
         response = client.get(f"/api/assets/{ASSET_ID}")
 
     assert response.status_code == 200
@@ -202,108 +178,101 @@ def test_asset_detail_returns_fields_leases_and_provenance() -> None:
     assert len(body["leases"]) == 1
     assert body["leases"][0]["tenant"]["name"] == "Chiu Wah Ltd"
     asset_source = next(field for field in body["fields"] if field["fieldPath"] == "asset.name")["provenance"][0]
-    assert asset_source["url"] == f"http://localhost:9000/assets/{file_index.object_key}?X-Amz-Expires=900"
+    assert asset_source["url"] == PRESIGNED_URL
     assert asset_source["refreshUrl"].endswith(f"{PDF_FILENAME.replace(' ', '%20').replace('(', '%28').replace(')', '%29')}/url")
     assert "pdfUrl" not in asset_source
     assert next(field for field in body["leases"][0]["fields"] if field["fieldPath"] == "lease.rent_gross")["provenance"][0]["quote"] == "150,000"
 
 
 def test_missing_asset_returns_404() -> None:
-    override_session(FakeSession(asset=None))
+    asset_service = FakeAssetService(missing=True)
 
-    with TestClient(app) as client:
+    with TestClient(make_test_app(asset_service=asset_service)) as client:
         response = client.get(f"/api/assets/{ASSET_ID}")
 
     assert response.status_code == 404
+    assert response.json() == {"detail": "Asset not found"}
 
 
 def test_resource_pdf_url_endpoint_returns_presigned_url() -> None:
-    file_index = FileIndex(
-        id=uuid.uuid4(),
-        filename=SAFE_PDF_FILENAME,
-        content_type="application/pdf",
-        size_bytes=13,
-        bucket="assets",
-        object_key=f"resources/{SAFE_PDF_FILENAME}",
-        status="uploaded",
-    )
-    override_session(FakeSession(file_index=file_index))
-    override_storage(FakeStorage())
+    resource_service = FakeResourceService(response=ResourceUrlDTO(url=PRESIGNED_URL, expires_in_seconds=900))
 
-    with TestClient(app) as client:
+    with TestClient(make_test_app(resource_service=resource_service)) as client:
         response = client.get(f"/api/resources/{PDF_FILENAME}/url")
 
     assert response.status_code == 200
     assert response.json() == {
-        "url": f"http://localhost:9000/assets/{file_index.object_key}?X-Amz-Expires=900",
+        "url": PRESIGNED_URL,
         "expires_in_seconds": 900,
     }
 
 
 def test_resource_pdf_endpoint_without_url_is_not_registered() -> None:
-    with TestClient(app) as client:
+    with TestClient(make_test_app()) as client:
         response = client.get(f"/api/resources/{PDF_FILENAME}")
 
     assert response.status_code == 404
 
 
 def test_missing_resource_returns_404() -> None:
-    override_session(FakeSession(file_index=None))
-    override_storage(FakeStorage())
+    resource_service = FakeResourceService(missing=True)
 
-    with TestClient(app) as client:
+    with TestClient(make_test_app(resource_service=resource_service)) as client:
         response = client.get("/api/resources/missing.pdf/url")
 
     assert response.status_code == 404
+    assert response.json() == {"detail": "Resource not found"}
 
 
 def test_resource_presign_failure_returns_404() -> None:
-    file_index = FileIndex(
-        id=uuid.uuid4(),
-        filename=SAFE_PDF_FILENAME,
-        content_type="application/pdf",
-        size_bytes=13,
-        bucket="assets",
-        object_key=f"resources/{SAFE_PDF_FILENAME}",
-        status="uploaded",
-    )
-    override_session(FakeSession(file_index=file_index))
-    override_storage(FakeStorage(fail=True))
+    resource_service = FakeResourceService(missing=True)
 
-    with TestClient(app) as client:
+    with TestClient(make_test_app(resource_service=resource_service)) as client:
         response = client.get(f"/api/resources/{PDF_FILENAME}/url")
 
     assert response.status_code == 404
 
 
 def test_resource_missing_minio_object_returns_404() -> None:
-    file_index = FileIndex(
-        id=uuid.uuid4(),
-        filename=SAFE_PDF_FILENAME,
-        content_type="application/pdf",
-        size_bytes=13,
-        bucket="assets",
-        object_key=f"resources/{SAFE_PDF_FILENAME}",
-        status="uploaded",
-    )
-    override_session(FakeSession(file_index=file_index))
-    override_storage(FakeStorage(missing=True))
+    resource_service = FakeResourceService(missing=True)
 
-    with TestClient(app) as client:
+    with TestClient(make_test_app(resource_service=resource_service)) as client:
         response = client.get(f"/api/resources/{PDF_FILENAME}/url")
 
     assert response.status_code == 404
 
 
 def test_resource_rejects_unsafe_filename() -> None:
-    with TestClient(app) as client:
+    with TestClient(make_test_app()) as client:
         response = client.get("/api/resources/../secret.pdf/url")
 
     assert response.status_code == 404
 
 
 def test_upload_route_is_not_registered() -> None:
-    with TestClient(app) as client:
+    with TestClient(make_test_app()) as client:
         response = client.post("/api/uploads")
 
     assert response.status_code == 404
+
+
+def test_invalid_asset_uuid_returns_client_error() -> None:
+    with TestClient(make_test_app()) as client:
+        response = client.get("/api/assets/not-a-uuid")
+
+    assert response.status_code in {400, 404}
+
+
+def test_docs_are_available() -> None:
+    with TestClient(make_test_app()) as client:
+        response = client.get("/docs")
+
+    assert response.status_code == 200
+
+
+def test_health_works_with_startup_skipped_and_otel_disabled() -> None:
+    with TestClient(make_test_app()) as client:
+        response = client.get("/health")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
