@@ -1,3 +1,4 @@
+import * as React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -33,18 +34,21 @@ vi.mock("@react-pdf-viewer/core", () => ({
 
 vi.mock("@react-pdf-viewer/toolbar", () => ({
   default: {
-    toolbarPlugin: vi.fn(() => ({
-      Toolbar: () => <div data-testid="mock-toolbar">Toolbar</div>,
-      pageNavigationPluginInstance: {
-        jumpToPage,
-      },
-      searchPluginInstance: {
-        clearHighlights,
-        setTargetPages,
-        highlight,
-        jumpToMatch,
-      },
-    })),
+    toolbarPlugin: vi.fn(() => {
+      React.useState(null);
+      return {
+        Toolbar: () => <div data-testid="mock-toolbar">Toolbar</div>,
+        pageNavigationPluginInstance: {
+          jumpToPage,
+        },
+        searchPluginInstance: {
+          clearHighlights,
+          setTargetPages,
+          highlight,
+          jumpToMatch,
+        },
+      };
+    }),
   },
 }));
 

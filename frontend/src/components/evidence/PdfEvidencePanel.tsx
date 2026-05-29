@@ -36,7 +36,7 @@ export function PdfEvidencePanel({ isOpen, evidence, onClose }: PdfEvidencePanel
     return null;
   }
 
-  return <OpenPdfEvidencePanel evidence={evidence} onClose={onClose} />;
+  return <OpenPdfEvidencePanel key={evidenceKey(evidence)} evidence={evidence} onClose={onClose} />;
 }
 
 function OpenPdfEvidencePanel({ evidence, onClose }: { evidence: EvidenceTarget; onClose: () => void }) {
@@ -234,4 +234,8 @@ function getSourcePageIndex(sourcePage: number | undefined, numPages: number): n
   }
 
   return sourcePage - 1;
+}
+
+function evidenceKey(evidence: EvidenceTarget): string {
+  return [evidence.entityType, evidence.fieldPath, evidence.filename, evidence.sourcePage ?? "", evidence.quote].join("|");
 }
