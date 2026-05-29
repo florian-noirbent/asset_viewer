@@ -3,6 +3,9 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    allowedHosts: ["assetviewer.nofl.uk"],
+  },
   test: {
     environment: "jsdom",
     globals: true,
