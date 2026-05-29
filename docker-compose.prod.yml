@@ -24,6 +24,8 @@ services:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_API_CORS_ALLOW_ORIGIN: ${FRONTEND_ORIGIN:-https://assetviewer.nofl.uk}
+    ports:
+      - "9000:9000"
     volumes:
       - minio_data:/data
     healthcheck:
