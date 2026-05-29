@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16
@@ -57,17 +55,51 @@ services:
     image: ${BACKEND_IMAGE}
     restart: unless-stopped
     depends_on:
-      postgres:
-        condition: service_healthy
+      backend-init:
+        condition: service_completed_successfully
+      minio-init:
+        condition: service_completed_successfully
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-gocanopy}:${POSTGRES_PASSWORD:-gocanopy}@postgres:5432/${POSTGRES_DB:-gocanopy}
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-gocanopy}:${POSTGRES_PASSWORD:-gocanopy}@postgres:5432/${POSTGRES_DB:-gocanopy}
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
       MINIO_BUCKET: ${MINIO_BUCKET:-assets}
       MINIO_SECURE: ${MINIO_SECURE:-false}
+      BACKEND_CORS_ORIGINS: ${BACKEND_CORS_ORIGINS:-https://assetviewer.nofl.uk}
     ports:
       - "8000:8000"
+    networks:
+      - gocanopy
+
+  backend-migrate:
+    image: ${BACKEND_IMAGE}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-gocanopy}:${POSTGRES_PASSWORD:-gocanopy}@postgres:5432/${POSTGRES_DB:-gocanopy}
+    command: uv run --no-dev alembic upgrade head
+    networks:
+      - gocanopy
+
+  backend-init:
+    image: ${BACKEND_IMAGE}
+    depends_on:
+      backend-migrate:
+        condition: service_completed_successfully
+      minio-init:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-gocanopy}:${POSTGRES_PASSWORD:-gocanopy}@postgres:5432/${POSTGRES_DB:-gocanopy}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-minioadmin}
+      MINIO_BUCKET: ${MINIO_BUCKET:-assets}
+      MINIO_SECURE: ${MINIO_SECURE:-false}
+    volumes:
+      - ./ressources:/app/ressources:ro
+    command: uv run --no-dev python -m app.db.init_from_json
     networks:
       - gocanopy
 
@@ -75,7 +107,7 @@ services:
     image: ${FRONTEND_IMAGE}
     restart: unless-stopped
     environment:
-      VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-https://assetviewer.nofl.uk}
     ports:
       - "5173:5173"
     networks:

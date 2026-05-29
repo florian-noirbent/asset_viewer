@@ -7,6 +7,7 @@ ENV PATH="/opt/venv/bin:${PATH}"
 COPY pyproject.toml uv.lock ./
 RUN uv sync --no-dev --no-install-project
 
+COPY alembic.ini ./
 COPY app ./app
 
 EXPOSE 8000
