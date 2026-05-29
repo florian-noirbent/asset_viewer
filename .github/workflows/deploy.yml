@@ -57,6 +57,13 @@ jobs:
         run: |
           echo "Stopping existing compose stack (if any)"
           docker compose --project-name gocanopy -f docker-compose.prod.yml down || true
+          for PORT in 8000 5173; do
+            CONTAINERS=$(docker ps -q --filter "publish=${PORT}" || true)
+            if [ -n "${CONTAINERS}" ]; then
+              echo "Removing existing container(s) publishing port ${PORT}"
+              docker rm -f ${CONTAINERS}
+            fi
+          done
           echo "Starting compose stack with rserver images"
           docker compose --project-name gocanopy -f docker-compose.prod.yml up -d
 
