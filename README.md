@@ -1,5 +1,7 @@
 # GoCanopy Asset Management POC
 
+Test environment: [https://assetviewer.nofl.uk](https://assetviewer.nofl.uk)
+
 GoCanopy is a proof of concept for browsing asset and lease data with field-level source evidence. The current focus is the viewer workflow: assets and leases are loaded from Postgres, source PDFs are stored privately in MinIO, and the frontend opens a PDF evidence panel that searches and highlights the quoted source text through backend-issued presigned URLs.
 
 ## Architecture
