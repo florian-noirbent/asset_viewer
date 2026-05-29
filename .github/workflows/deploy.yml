@@ -31,6 +31,11 @@ jobs:
             echo "environment=staging" >> $GITHUB_OUTPUT
           fi
 
+      - name: Check out deployment files
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
       - name: Docker login
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
@@ -46,14 +51,18 @@ jobs:
           docker pull ${REG}/${IMG_BASE}-frontend:${BR}-${SH}-rserver
 
       - name: Restart compose stack
+        env:
+          BACKEND_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver
+          FRONTEND_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver
         run: |
           echo "Stopping existing compose stack (if any)"
-          docker compose -f /app/docker-compose.prod.yml down || true
+          docker compose --project-name gocanopy -f docker-compose.prod.yml down || true
           echo "Starting compose stack with rserver images"
-          BACKEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver \
-          FRONTEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver \
-          docker compose -f /app/docker-compose.prod.yml up -d
+          docker compose --project-name gocanopy -f docker-compose.prod.yml up -d
 
       - name: Verify deployment
+        env:
+          BACKEND_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-backend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver
+          FRONTEND_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:${{ steps.env.outputs.branch }}-${{ steps.env.outputs.sha }}-rserver
         run: |
-          docker compose -f /app/docker-compose.prod.yml ps
+          docker compose --project-name gocanopy -f docker-compose.prod.yml ps
