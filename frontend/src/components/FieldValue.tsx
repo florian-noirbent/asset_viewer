@@ -16,14 +16,14 @@ export function FieldValue({ entityType, fieldPath, label, value, provenance, on
   const evidence = buildEvidenceTarget({ entityType, fieldPath, label, value: displayValue, provenance });
 
   return (
-    <div className="rounded-md border border-line bg-white p-3 shadow-panel">
+    <div className="rounded-md border border-line bg-canopy-cream p-3 shadow-panel">
       <div className="mb-2 flex items-center justify-between gap-2">
-        <div className="text-xs font-semibold uppercase tracking-normal text-slate-500">{label}</div>
+        <div className="text-xs font-semibold uppercase tracking-normal text-canopy-fern">{label}</div>
         {evidence ? (
           <button
             aria-label={`Open PDF evidence for ${label}`}
             type="button"
-            className="rounded-md p-1 text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-moss"
+            className="rounded-md p-1 text-canopy-fern hover:bg-canopy-mint hover:text-moss focus:outline-none focus:ring-2 focus:ring-moss"
             onClick={() => onOpenEvidence(evidence)}
             title="Source evidence"
           >
@@ -31,7 +31,7 @@ export function FieldValue({ entityType, fieldPath, label, value, provenance, on
           </button>
         ) : null}
       </div>
-      <div className={`break-words text-sm ${displayValue === "Not provided" ? "text-slate-500" : "text-ink"}`}>{displayValue}</div>
+      <div className={`break-words text-sm ${displayValue === "Not provided" ? "text-canopy-fern" : "text-ink"}`}>{displayValue}</div>
     </div>
   );
 }

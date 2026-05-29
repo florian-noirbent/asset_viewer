@@ -15,4 +15,11 @@ html {
 
 body {
   margin: 0;
+  background: #f5f7f1;
+  color: #11241c;
+}
+
+::selection {
+  background: #dcebdc;
+  color: #11241c;
 }

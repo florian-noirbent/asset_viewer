@@ -42,7 +42,7 @@ export function AssetDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-8 text-sm text-slate-500">
+      <div className="flex items-center gap-2 rounded-lg border border-line bg-canopy-cream px-4 py-8 text-sm text-canopy-fern">
         <Loader2 className="h-4 w-4 animate-spin" />
         Loading asset
       </div>
@@ -51,7 +51,7 @@ export function AssetDetailPage() {
 
   if (error || !asset) {
     return (
-      <div className="rounded-lg border border-line bg-white p-4">
+      <div className="rounded-lg border border-line bg-canopy-cream p-4">
         <div className="flex items-center gap-2 text-sm text-red-700">
           <AlertCircle className="h-4 w-4" />
           {error ?? "Asset not found"}
@@ -69,14 +69,14 @@ export function AssetDetailPage() {
       <div className="space-y-4">
         <BackLink />
 
-        <section className="rounded-lg border border-line bg-white p-4 shadow-panel">
-          <div className="text-xs font-semibold uppercase tracking-normal text-slate-500">Asset</div>
+        <section className="rounded-lg border border-line bg-canopy-cream p-4 shadow-panel">
+          <div className="text-xs font-semibold uppercase tracking-normal text-moss">Asset</div>
           <h2 className="mt-1 text-2xl font-semibold">{asset.name}</h2>
-          <p className="mt-1 text-sm text-slate-500">{[asset.address, asset.city, asset.country].filter(Boolean).join(", ")}</p>
-          <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-600">
-            {asset.assetType || asset.asset_type ? <span className="rounded-md bg-slate-100 px-2 py-1">{asset.assetType ?? asset.asset_type}</span> : null}
-            {asset.propertyType || asset.property_type ? <span className="rounded-md bg-slate-100 px-2 py-1">{asset.propertyType ?? asset.property_type}</span> : null}
-            {isDisplayablePrimitive(asset.currency) ? <span className="rounded-md bg-slate-100 px-2 py-1">{String(asset.currency)}</span> : null}
+          <p className="mt-1 text-sm text-canopy-fern">{[asset.address, asset.city, asset.country].filter(Boolean).join(", ")}</p>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs text-canopy-fern">
+            {asset.assetType || asset.asset_type ? <span className="rounded-md border border-line bg-white px-2 py-1">{asset.assetType ?? asset.asset_type}</span> : null}
+            {asset.propertyType || asset.property_type ? <span className="rounded-md border border-line bg-white px-2 py-1">{asset.propertyType ?? asset.property_type}</span> : null}
+            {isDisplayablePrimitive(asset.currency) ? <span className="rounded-md border border-line bg-white px-2 py-1">{String(asset.currency)}</span> : null}
           </div>
         </section>
 
@@ -106,7 +106,7 @@ export function AssetDetailPage() {
               ))}
             </div>
           ) : (
-            <div className="rounded-lg border border-line bg-white px-4 py-8 text-sm text-slate-500">No leases returned for this asset.</div>
+            <div className="rounded-lg border border-line bg-canopy-cream px-4 py-8 text-sm text-canopy-fern">No leases returned for this asset.</div>
           )}
         </section>
       </div>
@@ -118,7 +118,7 @@ export function AssetDetailPage() {
 
 function BackLink() {
   return (
-    <Link to="/assets" className="inline-flex items-center gap-2 text-sm font-medium text-moss">
+    <Link to="/assets" className="inline-flex items-center gap-2 text-sm font-medium text-moss hover:text-canopy-ink">
       <ChevronLeft className="h-4 w-4" />
       Assets
     </Link>
@@ -130,16 +130,16 @@ function LeasePanel({ lease, index, onOpenEvidence }: { lease: AssetLease; index
   const leaseFields = lease.fields?.length ? lease.fields : fieldsFromRecord(lease, "lease", hiddenLeaseKeys, lease.lease_provenance);
 
   return (
-    <details className="rounded-lg border border-line bg-white shadow-panel" open={index === 0}>
+    <details className="rounded-lg border border-line bg-canopy-cream shadow-panel" open={index === 0}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-moss">
         <div className="min-w-0">
           <div className="truncate text-sm font-semibold">{String(title)}</div>
-          <div className="text-xs text-slate-500">
+          <div className="text-xs text-canopy-fern">
             Lease {lease.id}
             {lease.tenant?.industry ? ` - ${lease.tenant.industry}` : ""}
           </div>
         </div>
-        <ChevronDown className="h-4 w-4 shrink-0 text-slate-500" />
+        <ChevronDown className="h-4 w-4 shrink-0 text-canopy-fern" />
       </summary>
       <div className="grid gap-3 border-t border-line p-4 md:grid-cols-2 xl:grid-cols-3">
         {leaseFields.map((field) => (
