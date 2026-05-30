@@ -91,16 +91,13 @@ export type AssetDetail = AssetSummary & {
 
 export type Lease = AssetLease;
 
-export type EvidenceEntityType = "asset" | "lease";
+export type EvidenceEntityType = "asset" | "lease" | "tenant";
 
-export type EvidenceTarget = {
+export type SourceViewerTarget = {
   entityType: EvidenceEntityType;
   fieldPath: string;
   label: string;
   value: string;
-  url: string;
-  refreshUrl?: string;
-  filename: string;
-  quote: string;
-  sourcePage?: number;
+  source: ProvenanceSource;
+  sources: ProvenanceSource[];
 };

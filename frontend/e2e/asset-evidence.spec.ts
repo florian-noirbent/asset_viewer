@@ -31,6 +31,60 @@ test.describe("asset evidence flow", () => {
     expect(pdfRequests.size).toBe(fetchedPdfCountAfterAssetSource);
     assertNoBrowserErrors();
   });
+
+  test("opens Meridian composite evidence and drills into CSV, Excel, and PDF sources", async ({ page }) => {
+    const assertNoBrowserErrors = collectBrowserErrors(page);
+
+    await page.goto("/");
+    await assertAppIsVisible(page);
+
+    await page.getByRole("link", { name: /Meridian Trade Park/i }).click();
+    await expect(page.getByRole("heading", { name: "Meridian Trade Park" })).toBeVisible();
+
+    await openSource(page, "Rent per unit");
+    const panel = page.getByRole("complementary", { name: "Source evidence" });
+    await expect(panel).toBeVisible();
+    await expect(panel.getByText("Calculation source")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Meridian Trade Park" })).toBeVisible();
+
+    await panel
+      .getByRole("button", { name: /source_viewer_demo\.xlsx/i })
+      .first()
+      .click();
+    await expect(panel.getByRole("button", { name: "Valuation Inputs" })).toBeVisible({ timeout: 30_000 });
+    await expect(panel.getByText("172000").first()).toBeVisible();
+
+    await panel.getByRole("button", { name: "Back to previous source" }).click();
+    await expect(panel.getByText("Calculation source")).toBeVisible();
+
+    await panel.getByRole("button", { name: /Total gross rent = Northstar rent/i }).click();
+    await expect(panel.getByText("Total gross rent = Northstar rent 96000 + Greenline rent 76000").first()).toBeVisible();
+
+    await panel
+      .getByRole("button", { name: /source_viewer_demo\.csv/i })
+      .first()
+      .click();
+    await expect(panel.getByText("Northstar Components Ltd").first()).toBeVisible({ timeout: 30_000 });
+
+    await panel.getByRole("button", { name: "Back to previous source" }).click();
+    await panel.getByRole("button", { name: "Back to previous source" }).click();
+    await panel
+      .getByRole("button", { name: /source_viewer_demo\.pdf/i })
+      .first()
+      .click();
+    await expectSourcePanelLoaded(page, "Rent per unit");
+
+    const resizeHandle = page.getByRole("button", { name: "Resize source viewer" });
+    await expect(resizeHandle).toBeVisible();
+    const mainContentBeforeResize = await page.getByRole("heading", { name: "Meridian Trade Park" }).boundingBox();
+    expect(mainContentBeforeResize).not.toBeNull();
+    await resizeHandle.dragTo(page.locator("body"), { targetPosition: { x: 520, y: 220 } });
+    await expect(page.getByRole("heading", { name: "Meridian Trade Park" })).toBeVisible();
+
+    await panel.getByRole("button", { name: "Close source viewer" }).click();
+    await expect(panel).toBeHidden();
+    assertNoBrowserErrors();
+  });
 });
 
 function collectBrowserErrors(page: Page) {
@@ -70,7 +124,7 @@ function collectPdfResourceRequests(page: Page) {
 }
 
 async function openSource(page: Page, label: string, options?: { force?: boolean }) {
-  const button = page.getByRole("button", { name: `Open PDF evidence for ${label}` }).first();
+  const button = page.getByRole("button", { name: `Open source evidence for ${label}` }).first();
 
   if (options?.force) {
     await button.evaluate((element) => {
@@ -84,7 +138,7 @@ async function openSource(page: Page, label: string, options?: { force?: boolean
 }
 
 async function expectSourcePanelLoaded(page: Page, label: string) {
-  const panel = page.getByRole("dialog", { name: "PDF source evidence" });
+  const panel = page.getByRole("complementary", { name: "Source evidence" });
   await expect(panel).toBeVisible();
   await expect(panel.getByRole("heading", { name: label })).toBeVisible();
   await expect(panel.getByText("Loading PDF", { exact: true })).toBeHidden({ timeout: 30_000 });

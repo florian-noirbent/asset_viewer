@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AlertCircle, ChevronDown, ChevronLeft, Loader2 } from "lucide-react";
+import { AlertCircle, ChevronDown, ChevronLeft, GripVertical, Loader2 } from "lucide-react";
 
 import { getAsset } from "../api";
 import { FieldValue } from "../components/FieldValue";
-import { PdfEvidencePanel } from "../components/evidence";
-import type { AssetDetail, AssetLease, EvidenceTarget, FieldDatum, ProvenanceMap } from "../types";
+import { SourceViewerPanel } from "../components/evidence";
+import type { AssetDetail, AssetLease, FieldDatum, ProvenanceMap, SourceViewerTarget } from "../types";
 
 const hiddenAssetKeys = new Set(["id", "fields", "leases", "asset_provenance", "logistics_provenance", "created_at", "updated_at"]);
 const hiddenLeaseKeys = new Set(["fields", "tenant", "lease_provenance", "created_at", "updated_at"]);
+const MIN_SOURCE_VIEWER_WIDTH = 320;
+const SOURCE_VIEWER_RESIZE_GUTTER = 24;
 
 export function AssetDetailPage() {
   const { assetId } = useParams();
   const [asset, setAsset] = useState<AssetDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [evidence, setEvidence] = useState<EvidenceTarget | null>(null);
+  const [evidence, setEvidence] = useState<SourceViewerTarget | null>(null);
+  const [viewerWidth, setViewerWidth] = useState(520);
+  const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
     if (!assetId) return;
@@ -39,6 +43,25 @@ export function AssetDetailPage() {
       cancelled = true;
     };
   }, [assetId]);
+
+  useEffect(() => {
+    if (!isResizing) return;
+
+    function handlePointerMove(event: PointerEvent) {
+      setViewerWidth(Math.max(MIN_SOURCE_VIEWER_WIDTH, window.innerWidth - event.clientX - SOURCE_VIEWER_RESIZE_GUTTER));
+    }
+
+    function handlePointerUp() {
+      setIsResizing(false);
+    }
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
+  }, [isResizing]);
 
   if (isLoading) {
     return (
@@ -65,8 +88,8 @@ export function AssetDetailPage() {
   const assetFields = asset.fields?.length ? asset.fields : fieldsFromRecord(asset, "asset", hiddenAssetKeys, assetProvenance);
 
   return (
-    <>
-      <div className="space-y-4">
+    <div className="flex min-h-0 flex-col gap-4 overflow-x-auto xl:flex-row xl:items-start">
+      <div className="min-w-0 flex-1 space-y-4 xl:min-w-80">
         <BackLink />
 
         <section className="rounded-lg border border-line bg-canopy-cream p-4 shadow-panel">
@@ -84,7 +107,7 @@ export function AssetDetailPage() {
 
         <section>
           <h3 className="mb-3 font-semibold">Asset Fields</h3>
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] gap-3">
             {assetFields.map((field) => (
               <FieldValue
                 key={field.fieldPath}
@@ -113,8 +136,33 @@ export function AssetDetailPage() {
         </section>
       </div>
 
-      <PdfEvidencePanel evidence={evidence} isOpen={Boolean(evidence)} onClose={() => setEvidence(null)} />
-    </>
+      {evidence ? (
+        <div className="relative min-h-0 w-full shrink-0 xl:sticky xl:top-4 xl:h-[calc(100vh-2rem)] xl:w-auto" style={{ flexBasis: `${viewerWidth}px` }}>
+          <button
+            aria-label="Resize source viewer"
+            className="absolute -left-3 top-1/2 z-10 hidden -translate-y-1/2 rounded-md border border-line bg-white p-1 text-canopy-fern shadow-panel transition hover:bg-canopy-mint hover:text-moss focus:outline-none focus:ring-2 focus:ring-moss xl:block"
+            onKeyDown={(event) => {
+              if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                setViewerWidth((width) => width + 48);
+              }
+              if (event.key === "ArrowRight") {
+                event.preventDefault();
+                setViewerWidth((width) => Math.max(MIN_SOURCE_VIEWER_WIDTH, width - 48));
+              }
+            }}
+            onPointerDown={(event) => {
+              event.currentTarget.setPointerCapture(event.pointerId);
+              setIsResizing(true);
+            }}
+            type="button"
+          >
+            <GripVertical className="h-4 w-4" />
+          </button>
+          <SourceViewerPanel target={evidence} isOpen={Boolean(evidence)} onClose={() => setEvidence(null)} />
+        </div>
+      ) : null}
+    </div>
   );
 }
 
@@ -127,12 +175,13 @@ function BackLink() {
   );
 }
 
-function LeasePanel({ lease, index, onOpenEvidence }: { lease: AssetLease; index: number; onOpenEvidence: (evidence: EvidenceTarget) => void }) {
+function LeasePanel({ lease, index, onOpenEvidence }: { lease: AssetLease; index: number; onOpenEvidence: (evidence: SourceViewerTarget) => void }) {
   const title = lease.tenant?.name ?? lease.tenant_name ?? lease.lessee_name_verbatim ?? lease.id;
   const leaseFields = lease.fields?.length ? lease.fields : fieldsFromRecord(lease, "lease", hiddenLeaseKeys, lease.lease_provenance);
+  const tenantFields = lease.tenantFields ?? [];
 
   return (
-    <details className="rounded-lg border border-line bg-canopy-cream shadow-panel" open={index === 0}>
+    <details className="rounded-lg border border-line bg-canopy-cream shadow-panel transition hover:border-canopy-fern/40 hover:bg-white" open={index === 0}>
       <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-moss">
         <div className="min-w-0">
           <div className="truncate text-sm font-semibold">{String(title)}</div>
@@ -143,8 +192,8 @@ function LeasePanel({ lease, index, onOpenEvidence }: { lease: AssetLease; index
         </div>
         <ChevronDown className="h-4 w-4 shrink-0 text-canopy-fern" />
       </summary>
-      <div className="grid gap-3 border-t border-line p-4 md:grid-cols-2 xl:grid-cols-3">
-        {leaseFields.map((field) => (
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] gap-3 border-t border-line p-4">
+        {[...tenantFields, ...leaseFields].map((field) => (
           <FieldValue
             key={field.fieldPath}
             entityType="lease"

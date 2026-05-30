@@ -2,25 +2,25 @@
 
 Test environment: [https://assetviewer.nofl.uk](https://assetviewer.nofl.uk)
 
-GoCanopy is a proof of concept for browsing asset and lease data with field-level source evidence. The current focus is the viewer workflow: assets and leases are loaded from Postgres, source PDFs are stored privately in MinIO, and the frontend opens a PDF evidence panel that searches and highlights the quoted source text through backend-issued presigned URLs.
+GoCanopy is a proof of concept for browsing asset and lease data with field-level source evidence. The current focus is the viewer workflow: assets and leases are loaded from Postgres, source documents are stored privately in MinIO, and the frontend opens a docked source viewer for PDF, CSV, Excel, and composite calculation evidence through backend-issued presigned URLs.
 
 ## Architecture
 
 - Backend: Litestar, SQLAlchemy async, Advanced Alchemy, Postgres, MinIO, `uv`
-- Frontend: React, TypeScript, Vite, Tailwind, React PDF Viewer
+- Frontend: React, TypeScript, Vite, Tailwind, React PDF Viewer, HTML table renderers for CSV/Excel
 - Storage:
   - Postgres stores assets, tenants, leases, provenance JSONB, and `file_index`
-  - MinIO stores source PDFs referenced by `file_index`
+  - MinIO stores source documents referenced by `file_index`
 - Schema: Alembic migrations
-- Seed resources: `ressources/warrington_test_data.json` and the bundled Warrington PDF
+- Seed resources: JSON fixtures plus bundled PDF/CSV/XLSX source documents under `ressources/`
 
 ```mermaid
 flowchart LR
     Frontend[React viewer UI] --> API[Litestar API]
     API --> Postgres[(Postgres)]
-    API -->|presign| MinIO[(Private MinIO source PDFs)]
+    API -->|presign| MinIO[(Private MinIO source documents)]
     Frontend -->|temporary URL| MinIO
-    Seed[JSON/PDF initializer] --> Postgres
+    Seed[JSON/document initializer] --> Postgres
     Seed --> MinIO
 ```
 
@@ -70,7 +70,7 @@ The content seeder:
 
 - upserts assets, tenants, and leases
 - preserves provenance JSONB
-- uploads the bundled PDF to MinIO under `resources/{safe_filename}`
+- uploads bundled source documents to MinIO under `resources/{safe_filename}`
 - upserts a matching `file_index` row
 
 ## Current Routes
@@ -80,7 +80,7 @@ The content seeder:
 - `GET /api/assets/{asset_id}` returns fields with valid source `url` values
 - `GET /api/resources/{filename}/url` refreshes an expired source URL
 
-See [docs/routes.md](docs/routes.md) for route details and [docs/database.md](docs/database.md) for the schema.
+See [docs/routes.md](docs/routes.md) for route details, [docs/database.md](docs/database.md) for the schema, and [docs/frontend.md](docs/frontend.md) for the frontend architecture.
 
 ## Development Checks
 
@@ -114,8 +114,8 @@ Included:
 - Asset list and single asset detail page
 - Inline lease display
 - Field-level provenance buttons
-- PDF evidence panel with search/highlight behavior
-- Private MinIO source PDFs loaded through short-lived presigned URLs
+- Docked recursive source viewer with PDF, CSV, Excel, and composite source support
+- Private MinIO source documents loaded through short-lived presigned URLs
 
 Out of scope for this POC slice:
 

@@ -6,11 +6,11 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 
 vi.mock("./components/evidence", () => ({
-  PdfEvidencePanel: ({ isOpen, evidence, onClose }: any) =>
-    isOpen && evidence ? (
-      <aside aria-label="PDF source evidence" role="dialog">
-        <div>{evidence.filename}</div>
-        <div>{evidence.quote}</div>
+  SourceViewerPanel: ({ isOpen, target, onClose }: any) =>
+    isOpen && target ? (
+      <aside aria-label="Source evidence">
+        <div>{target.source.document}</div>
+        <div>{target.source.quote}</div>
         <button onClick={onClose} type="button">
           Close
         </button>
@@ -111,7 +111,7 @@ describe("App", () => {
     expect(screen.getByText("Gross rent")).toBeInTheDocument();
   });
 
-  it("opens PDF evidence for asset and lease fields", async () => {
+  it("opens source evidence for asset and lease fields", async () => {
     const user = userEvent.setup();
     mockFetch({
       "http://localhost:8000/api/assets/d1994ec3-e121-4d5e-adec-014907116986": assetDetailResponse(),
@@ -119,12 +119,12 @@ describe("App", () => {
 
     renderApp("/assets/d1994ec3-e121-4d5e-adec-014907116986");
 
-    await user.click(await screen.findByRole("button", { name: "Open PDF evidence for Asset name" }));
-    expect(screen.getByRole("dialog", { name: "PDF source evidence" })).toBeInTheDocument();
+    await user.click(await screen.findByRole("button", { name: "Open source evidence for Asset name" }));
+    expect(screen.getByRole("complementary", { name: "Source evidence" })).toBeInTheDocument();
     expect(screen.getByText("Causeway Park source quote")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Close" }));
-    await user.click(screen.getByRole("button", { name: "Open PDF evidence for Gross rent" }));
+    await user.click(screen.getByRole("button", { name: "Open source evidence for Gross rent" }));
     expect(screen.getByText("Lease rent source quote")).toBeInTheDocument();
   });
 });

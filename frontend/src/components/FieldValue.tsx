@@ -1,6 +1,6 @@
-import { Link2 } from "lucide-react";
+import { FileSearch } from "lucide-react";
 
-import type { EvidenceEntityType, EvidenceTarget, PdfProvenanceSource, ProvenanceMap, ProvenanceSource } from "../types";
+import type { EvidenceEntityType, ProvenanceMap, ProvenanceSource, SourceViewerTarget } from "../types";
 
 type FieldValueProps = {
   entityType: EvidenceEntityType;
@@ -8,26 +8,29 @@ type FieldValueProps = {
   label: string;
   value: unknown;
   provenance?: ProvenanceMap | ProvenanceSource[];
-  onOpenEvidence: (evidence: EvidenceTarget) => void;
+  onOpenEvidence: (evidence: SourceViewerTarget) => void;
 };
 
 export function FieldValue({ entityType, fieldPath, label, value, provenance, onOpenEvidence }: FieldValueProps) {
   const displayValue = formatValue(value);
-  const evidence = buildEvidenceTarget({ entityType, fieldPath, label, value: displayValue, provenance });
+  const evidence = buildSourceViewerTarget({ entityType, fieldPath, label, value: displayValue, provenance });
 
   return (
-    <div className="rounded-md border border-line bg-canopy-cream p-3 shadow-panel">
+    <div className="group rounded-md border border-line bg-canopy-cream p-3 shadow-panel transition duration-150 hover:-translate-y-0.5 hover:border-canopy-fern/50 hover:bg-white hover:shadow-md">
       <div className="mb-2 flex items-center justify-between gap-2">
         <div className="text-xs font-semibold uppercase tracking-normal text-canopy-fern">{label}</div>
         {evidence ? (
           <button
-            aria-label={`Open PDF evidence for ${label}`}
+            aria-label={`Open source evidence for ${label}`}
             type="button"
-            className="rounded-md p-1 text-canopy-fern hover:bg-canopy-mint hover:text-moss focus:outline-none focus:ring-2 focus:ring-moss"
+            className="inline-flex items-center gap-1 rounded-md border border-transparent px-1.5 py-1 text-canopy-fern transition hover:border-line hover:bg-canopy-mint hover:text-moss focus:outline-none focus:ring-2 focus:ring-moss"
             onClick={() => onOpenEvidence(evidence)}
-            title="Source evidence"
+            title={`${evidence.sources.length} source${evidence.sources.length === 1 ? "" : "s"}`}
           >
-            <Link2 className="h-4 w-4" />
+            <FileSearch className="h-4 w-4" />
+            <span className="min-w-4 rounded bg-white px-1 text-center text-[10px] font-semibold tabular-nums text-moss group-hover:bg-canopy-cream">
+              {evidence.sources.length}
+            </span>
           </button>
         ) : null}
       </div>
@@ -45,7 +48,7 @@ export function formatValue(value: unknown): string {
   return JSON.stringify(value);
 }
 
-function buildEvidenceTarget({
+function buildSourceViewerTarget({
   entityType,
   fieldPath,
   label,
@@ -57,47 +60,43 @@ function buildEvidenceTarget({
   label: string;
   value: string;
   provenance?: ProvenanceMap | ProvenanceSource[];
-}): EvidenceTarget | null {
-  const source = findPdfQuote(provenance, fieldPath);
-  if (!source?.quote) return null;
+}): SourceViewerTarget | null {
+  const sources = findSources(provenance, fieldPath);
+  const source = chooseInitialSource(sources);
+  if (!source) return null;
 
   return {
     entityType,
     fieldPath,
     label,
     value,
-    url: source.url,
-    refreshUrl: source.refreshUrl,
-    filename: source.document,
-    quote: source.quote,
-    sourcePage: source.page,
+    source,
+    sources,
   };
 }
 
-function findPdfQuote(provenance: ProvenanceMap | ProvenanceSource[] | undefined, fieldPath: string): PdfProvenanceSource | null {
-  if (!provenance) return null;
+function findSources(provenance: ProvenanceMap | ProvenanceSource[] | undefined, fieldPath: string): ProvenanceSource[] {
+  if (!provenance) return [];
   const pathParts = fieldPath.split(".");
   const fieldKey = pathParts[pathParts.length - 1] ?? fieldPath;
-  const sourceLists = Array.isArray(provenance)
-    ? [provenance]
-    : [provenance[fieldPath], provenance[fieldKey]].map((entries) => (Array.isArray(entries) ? entries : entries ? [entries] : []));
+  const entries = Array.isArray(provenance) ? provenance : normalizeSourceEntries(provenance[fieldPath] ?? provenance[fieldKey]);
 
-  for (const entries of sourceLists) {
-    const match = entries.flatMap(flattenSources).find(isPdfSource);
-    if (match) return match;
-  }
-
-  return null;
+  return entries.filter(hasUsableSource);
 }
 
-function flattenSources(source: ProvenanceSource): ProvenanceSource[] {
-  if (source.sourceType !== "composite") {
-    return [source];
-  }
-
-  return source.sources.flatMap(flattenSources);
+function normalizeSourceEntries(entries: ProvenanceSource[] | ProvenanceSource | undefined): ProvenanceSource[] {
+  if (!entries) return [];
+  return Array.isArray(entries) ? entries : [entries];
 }
 
-function isPdfSource(source: ProvenanceSource): source is PdfProvenanceSource {
-  return source.sourceType === "pdf";
+function chooseInitialSource(sources: ProvenanceSource[]): ProvenanceSource | null {
+  return sources.find((source) => "sources" in source) ?? sources[0] ?? null;
+}
+
+function hasUsableSource(source: ProvenanceSource): boolean {
+  if ("sources" in source) {
+    return source.sources.length > 0;
+  }
+
+  return "url" in source && Boolean(source.url && source.document && source.quote);
 }

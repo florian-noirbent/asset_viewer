@@ -1,2 +1,2 @@
-export { PdfEvidencePanel } from "./PdfEvidencePanel";
-export type { PdfEvidencePanelProps } from "./PdfEvidencePanel";
+export { SourceViewerPanel } from "./SourceViewerPanel";
+export type { SourceViewerPanelProps } from "./SourceViewerPanel";

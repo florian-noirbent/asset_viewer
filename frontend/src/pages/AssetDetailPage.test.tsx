@@ -6,16 +6,16 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { AssetDetailPage } from "./AssetDetailPage";
 
 vi.mock("../components/evidence", () => ({
-  PdfEvidencePanel: ({ isOpen, evidence, onClose }: { isOpen: boolean; evidence: { label: string; quote: string } | null; onClose: () => void }) =>
-    isOpen && evidence ? (
-      <div role="dialog" aria-label="mock pdf evidence">
-        <div>{evidence.label}</div>
-        <div>{evidence.quote}</div>
+  SourceViewerPanel: ({ isOpen, target, onClose }: { isOpen: boolean; target: { label: string; source: { quote: string } } | null; onClose: () => void }) =>
+    isOpen && target ? (
+      <aside aria-label="mock source evidence">
+        <div>{target.label}</div>
+        <div>{target.source.quote}</div>
         <div data-testid="pdf-viewer-shell" />
         <button type="button" onClick={onClose}>
           Close
         </button>
-      </div>
+      </aside>
     ) : null,
 }));
 
@@ -42,7 +42,7 @@ describe("AssetDetailPage", () => {
     expect(screen.getAllByText("Gross rent")[0]).toBeInTheDocument();
   });
 
-  it("opens the PDF panel from lease provenance", async () => {
+  it("opens the docked source panel from lease provenance", async () => {
     const user = userEvent.setup();
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(JSON.stringify(assetDetailFixture()), {
@@ -54,10 +54,11 @@ describe("AssetDetailPage", () => {
     renderPage();
 
     await screen.findByText("Chiu Wah Ltd");
-    await user.click(screen.getByRole("button", { name: "Open PDF evidence for Gross rent" }));
+    await user.click(screen.getByRole("button", { name: "Open source evidence for Gross rent" }));
 
-    await waitFor(() => expect(screen.getByRole("dialog", { name: "mock pdf evidence" })).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByRole("complementary", { name: "mock source evidence" })).toBeInTheDocument());
     expect(screen.getByText("Annual rent is GBP 150,000")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Resize source viewer" })).toBeInTheDocument();
   });
 
   it("opens the source panel from asset detail and renders the viewer shell", async () => {
@@ -71,10 +72,30 @@ describe("AssetDetailPage", () => {
 
     renderPage();
 
-    await user.click(await screen.findByRole("button", { name: "Open PDF evidence for City" }));
+    await user.click(await screen.findByRole("button", { name: "Open source evidence for City" }));
 
-    expect(screen.getByRole("dialog", { name: "mock pdf evidence" })).toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "mock source evidence" })).toBeInTheDocument();
     expect(screen.getByTestId("pdf-viewer-shell")).toBeInTheDocument();
+  });
+
+  it("does not cap source viewer width when resized by keyboard", async () => {
+    const user = userEvent.setup();
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify(assetDetailFixture()), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+    );
+
+    renderPage();
+
+    await user.click(await screen.findByRole("button", { name: "Open source evidence for City" }));
+    const resizeHandle = screen.getByRole("button", { name: "Resize source viewer" });
+
+    resizeHandle.focus();
+    await user.keyboard("{ArrowLeft}{ArrowLeft}{ArrowLeft}{ArrowLeft}{ArrowLeft}{ArrowLeft}");
+
+    expect(resizeHandle.parentElement).toHaveStyle({ flexBasis: "808px" });
   });
 });
 
