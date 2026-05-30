@@ -75,7 +75,9 @@ export function AssetDetailPage() {
           <p className="mt-1 text-sm text-canopy-fern">{[asset.address, asset.city, asset.country].filter(Boolean).join(", ")}</p>
           <div className="mt-3 flex flex-wrap gap-2 text-xs text-canopy-fern">
             {asset.assetType || asset.asset_type ? <span className="rounded-md border border-line bg-white px-2 py-1">{asset.assetType ?? asset.asset_type}</span> : null}
-            {asset.propertyType || asset.property_type ? <span className="rounded-md border border-line bg-white px-2 py-1">{asset.propertyType ?? asset.property_type}</span> : null}
+            {asset.propertyType || asset.property_type ? (
+              <span className="rounded-md border border-line bg-white px-2 py-1">{asset.propertyType ?? asset.property_type}</span>
+            ) : null}
             {isDisplayablePrimitive(asset.currency) ? <span className="rounded-md border border-line bg-white px-2 py-1">{String(asset.currency)}</span> : null}
           </div>
         </section>

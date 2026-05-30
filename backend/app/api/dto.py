@@ -1,4 +1,7 @@
-from dataclasses import dataclass
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Literal, TypeAlias
 
 
 @dataclass(frozen=True)
@@ -7,15 +10,53 @@ class HealthDTO:
 
 
 @dataclass(frozen=True)
-class ProvenanceDTO:
-    document: str | None
-    quote: str | None
-    page: object | None
-    sheet: object | None
-    sourceType: object | None
-    url: str | None
-    refreshUrl: str | None
-    expiresInSeconds: int | None
+class BaseProvenanceDTO:
+    quote: str
+    sourceType: str
+
+
+@dataclass(frozen=True)
+class DocumentProvenanceDTO(BaseProvenanceDTO):
+    document: str
+    url: str
+    refreshUrl: str
+    expiresInSeconds: int
+
+
+@dataclass(frozen=True)
+class PdfProvenanceDTO(DocumentProvenanceDTO):
+    sourceType: Literal["pdf"]
+    page: int
+
+
+@dataclass(frozen=True)
+class CsvProvenanceDTO(DocumentProvenanceDTO):
+    sourceType: Literal["csv"]
+    row: int | str
+    column: str
+
+
+@dataclass(frozen=True)
+class ExcelCellProvenanceDTO(DocumentProvenanceDTO):
+    sourceType: Literal["excel"]
+    sheet: str
+    cell: str
+
+
+@dataclass(frozen=True)
+class ExcelRangeProvenanceDTO(DocumentProvenanceDTO):
+    sourceType: Literal["excel"]
+    sheet: str
+    range: str
+
+
+@dataclass(frozen=True)
+class CompositeProvenanceDTO(BaseProvenanceDTO):
+    sourceType: Literal["composite"]
+    sources: list[ProvenanceDTO] = field(default_factory=list)
+
+
+ProvenanceDTO: TypeAlias = PdfProvenanceDTO | CsvProvenanceDTO | ExcelCellProvenanceDTO | ExcelRangeProvenanceDTO | CompositeProvenanceDTO
 
 
 @dataclass(frozen=True)
@@ -38,6 +79,7 @@ class LeaseDTO:
     id: str
     tenant: TenantSummaryDTO
     fields: list[AssetFieldDTO]
+    tenantFields: list[AssetFieldDTO] = field(default_factory=list)
 
 
 @dataclass(frozen=True)

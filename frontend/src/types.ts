@@ -1,15 +1,44 @@
-export type ProvenanceSource = {
-  page?: number;
-  sourcePage?: number;
-  quote?: string;
-  document?: string;
-  filename?: string;
-  url?: string;
-  refreshUrl?: string;
-  source_type?: string;
-  sourceType?: string;
-  sheet?: string | null;
+export type BaseProvenanceSource = {
+  quote: string;
+  sourceType: "pdf" | "csv" | "excel" | "composite";
 };
+
+export type DocumentProvenanceSource = BaseProvenanceSource & {
+  document: string;
+  url: string;
+  refreshUrl: string;
+  expiresInSeconds: number;
+};
+
+export type PdfProvenanceSource = DocumentProvenanceSource & {
+  sourceType: "pdf";
+  page: number;
+};
+
+export type CsvProvenanceSource = DocumentProvenanceSource & {
+  sourceType: "csv";
+  row: number | string;
+  column: string;
+};
+
+export type ExcelCellProvenanceSource = DocumentProvenanceSource & {
+  sourceType: "excel";
+  sheet: string;
+  cell: string;
+};
+
+export type ExcelRangeProvenanceSource = DocumentProvenanceSource & {
+  sourceType: "excel";
+  sheet: string;
+  range: string;
+};
+
+export type CompositeProvenanceSource = BaseProvenanceSource & {
+  sourceType: "composite";
+  sources: ProvenanceSource[];
+};
+
+export type ProvenanceSource = PdfProvenanceSource | CsvProvenanceSource | ExcelCellProvenanceSource | ExcelRangeProvenanceSource | CompositeProvenanceSource;
 
 export type ProvenanceMap = Record<string, ProvenanceSource[] | ProvenanceSource | undefined>;
 
@@ -44,6 +73,7 @@ export type AssetLease = {
   id: string;
   tenant: TenantSummary;
   fields: FieldDatum[];
+  tenantFields?: FieldDatum[];
   tenant_id?: string | null;
   tenant_name?: string | null;
   lease_type?: string | null;

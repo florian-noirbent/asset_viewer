@@ -18,10 +18,11 @@ describe("FieldValue", () => {
         provenance={{
           city: [
             {
-              source_type: "pdf",
+              sourceType: "pdf",
               quote: "Located in Warrington",
               url: "https://minio.test/source.pdf",
               refreshUrl: "https://api.test/source.pdf/url",
+              expiresInSeconds: 900,
               document: "source.pdf",
               page: 2,
             },

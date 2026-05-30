@@ -29,8 +29,8 @@ class AssetController(Controller):
             raise NotFoundException(detail="Asset not found") from error
 
     @get("/resources/{filename:str}/url", name="get_resource_url")
-    async def get_resource_pdf_url(self, filename: FromPath[str], resource_service: ResourceService) -> ResourceUrlDTO:
+    async def get_resource_url(self, filename: FromPath[str], resource_service: ResourceService) -> ResourceUrlDTO:
         try:
-            return await resource_service.get_resource_pdf_url(filename)
+            return await resource_service.get_resource_url(filename)
         except ResourceNotFoundError as error:
             raise NotFoundException(detail="Resource not found") from error

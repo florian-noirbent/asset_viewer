@@ -7,7 +7,7 @@ os.environ["GOCANOPY_SKIP_STARTUP"] = "true"
 from litestar import Litestar
 from litestar.testing import TestClient
 
-from app.api.dto import AssetDetailDTO, AssetFieldDTO, AssetSummaryDTO, LeaseDTO, ProvenanceDTO, ResourceUrlDTO, TenantSummaryDTO
+from app.api.dto import AssetDetailDTO, AssetFieldDTO, AssetSummaryDTO, LeaseDTO, PdfProvenanceDTO, ResourceUrlDTO, TenantSummaryDTO
 from app.core.config import Settings
 from app.main import create_app
 from app.services.assets import AssetService
@@ -47,7 +47,7 @@ class FakeResourceService(ResourceService):
         self.response = response
         self.missing = missing
 
-    async def get_resource_pdf_url(self, filename: str) -> ResourceUrlDTO:
+    async def get_resource_url(self, filename: str) -> ResourceUrlDTO:
         if self.missing or self.response is None:
             raise ResourceNotFoundError
         return self.response
@@ -113,11 +113,10 @@ def make_asset_detail() -> AssetDetailDTO:
                 label="Asset name",
                 value="Causeway Park",
                 provenance=[
-                    ProvenanceDTO(
+                    PdfProvenanceDTO(
                         document=PDF_FILENAME,
                         quote="Causeway Park",
                         page=2,
-                        sheet=None,
                         sourceType="pdf",
                         url=PRESIGNED_URL,
                         refreshUrl=f"http://testserver.local/api/resources/{PDF_FILENAME.replace(' ', '%20').replace('(', '%28').replace(')', '%29')}/url",
@@ -136,11 +135,10 @@ def make_asset_detail() -> AssetDetailDTO:
                         label="Gross rent",
                         value="150000",
                         provenance=[
-                            ProvenanceDTO(
+                            PdfProvenanceDTO(
                                 document=PDF_FILENAME,
                                 quote="150,000",
                                 page=12,
-                                sheet=None,
                                 sourceType="pdf",
                                 url=PRESIGNED_URL,
                                 refreshUrl=f"http://testserver.local/api/resources/{PDF_FILENAME.replace(' ', '%20').replace('(', '%28').replace(')', '%29')}/url",
@@ -149,6 +147,7 @@ def make_asset_detail() -> AssetDetailDTO:
                         ],
                     )
                 ],
+                tenantFields=[],
             )
         ],
     )
@@ -180,7 +179,6 @@ def test_asset_detail_returns_fields_leases_and_provenance() -> None:
     asset_source = next(field for field in body["fields"] if field["fieldPath"] == "asset.name")["provenance"][0]
     assert asset_source["url"] == PRESIGNED_URL
     assert asset_source["refreshUrl"].endswith(f"{PDF_FILENAME.replace(' ', '%20').replace('(', '%28').replace(')', '%29')}/url")
-    assert "pdfUrl" not in asset_source
     assert next(field for field in body["leases"][0]["fields"] if field["fieldPath"] == "lease.rent_gross")["provenance"][0]["quote"] == "150,000"
 
 
@@ -194,7 +192,7 @@ def test_missing_asset_returns_404() -> None:
     assert response.json() == {"detail": "Asset not found"}
 
 
-def test_resource_pdf_url_endpoint_returns_presigned_url() -> None:
+def test_resource_url_endpoint_returns_presigned_url() -> None:
     resource_service = FakeResourceService(response=ResourceUrlDTO(url=PRESIGNED_URL, expires_in_seconds=900))
 
     with TestClient(make_test_app(resource_service=resource_service)) as client:
@@ -207,7 +205,7 @@ def test_resource_pdf_url_endpoint_returns_presigned_url() -> None:
     }
 
 
-def test_resource_pdf_endpoint_without_url_is_not_registered() -> None:
+def test_resource_endpoint_without_url_is_not_registered() -> None:
     with TestClient(make_test_app()) as client:
         response = client.get(f"/api/resources/{PDF_FILENAME}")
 

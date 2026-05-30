@@ -4,7 +4,7 @@ from app.api.dto import ResourceUrlDTO
 from app.core.config import Settings
 from app.db.repositories import FileIndexRepository
 from app.services.exceptions import ResourceNotFoundError
-from app.storage.minio_client import safe_filename
+from app.storage.minio_client import RESOURCE_CONTENT_TYPES, safe_filename
 from app.storage.ports import StoragePort
 
 
@@ -14,9 +14,9 @@ class ResourceService:
         self.storage = storage
         self.settings = settings
 
-    async def get_resource_pdf_url(self, filename: str) -> ResourceUrlDTO:
+    async def get_resource_url(self, filename: str) -> ResourceUrlDTO:
         requested_filename = Path(filename).name
-        if requested_filename != filename or Path(filename).suffix.lower() != ".pdf":
+        if requested_filename != filename or Path(filename).suffix.lower() not in RESOURCE_CONTENT_TYPES:
             raise ResourceNotFoundError
 
         index_filename = safe_filename(requested_filename)

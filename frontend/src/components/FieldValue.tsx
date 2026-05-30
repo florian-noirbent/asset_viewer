@@ -1,6 +1,6 @@
 import { Link2 } from "lucide-react";
 
-import type { EvidenceEntityType, EvidenceTarget, ProvenanceMap, ProvenanceSource } from "../types";
+import type { EvidenceEntityType, EvidenceTarget, PdfProvenanceSource, ProvenanceMap, ProvenanceSource } from "../types";
 
 type FieldValueProps = {
   entityType: EvidenceEntityType;
@@ -61,24 +61,20 @@ function buildEvidenceTarget({
   const source = findPdfQuote(provenance, fieldPath);
   if (!source?.quote) return null;
 
-  const filename = source.filename ?? source.document ?? "Source PDF";
-  const url = source.url;
-  if (!url) return null;
-
   return {
     entityType,
     fieldPath,
     label,
     value,
-    url,
+    url: source.url,
     refreshUrl: source.refreshUrl,
-    filename,
+    filename: source.document,
     quote: source.quote,
-    sourcePage: source.sourcePage ?? source.page,
+    sourcePage: source.page,
   };
 }
 
-function findPdfQuote(provenance: ProvenanceMap | ProvenanceSource[] | undefined, fieldPath: string): ProvenanceSource | null {
+function findPdfQuote(provenance: ProvenanceMap | ProvenanceSource[] | undefined, fieldPath: string): PdfProvenanceSource | null {
   if (!provenance) return null;
   const pathParts = fieldPath.split(".");
   const fieldKey = pathParts[pathParts.length - 1] ?? fieldPath;
@@ -87,12 +83,21 @@ function findPdfQuote(provenance: ProvenanceMap | ProvenanceSource[] | undefined
     : [provenance[fieldPath], provenance[fieldKey]].map((entries) => (Array.isArray(entries) ? entries : entries ? [entries] : []));
 
   for (const entries of sourceLists) {
-    const match = entries.find((entry) => {
-      const sourceType = entry.source_type ?? entry.sourceType;
-      return Boolean(entry.quote) && (!sourceType || sourceType.toLowerCase() === "pdf");
-    });
+    const match = entries.flatMap(flattenSources).find(isPdfSource);
     if (match) return match;
   }
 
   return null;
+}
+
+function flattenSources(source: ProvenanceSource): ProvenanceSource[] {
+  if (source.sourceType !== "composite") {
+    return [source];
+  }
+
+  return source.sources.flatMap(flattenSources);
+}
+
+function isPdfSource(source: ProvenanceSource): source is PdfProvenanceSource {
+  return source.sourceType === "pdf";
 }

@@ -50,6 +50,7 @@ class AssetService:
                         industry=tenant.industry,
                     ),
                     fields=self.provenance_service.serialize_lease_fields(lease, base_url, file_indexes),
+                    tenantFields=self.provenance_service.serialize_tenant_fields(tenant, base_url, file_indexes),
                 )
                 for lease, tenant in lease_rows
             ],

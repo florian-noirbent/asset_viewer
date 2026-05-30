@@ -40,9 +40,9 @@ const assetDetail = {
         {
           sourceType: "pdf",
           document: "source.pdf",
-          filename: "source.pdf",
           url: "http://localhost:9000/assets/resources/source.pdf?signature=asset",
           refreshUrl: "http://localhost:8000/api/resources/source.pdf/url",
+          expiresInSeconds: 900,
           quote: "Causeway Park source quote",
           page: 2,
         },
@@ -66,9 +66,9 @@ const assetDetail = {
             {
               sourceType: "pdf",
               document: "source.pdf",
-              filename: "source.pdf",
               url: "http://localhost:9000/assets/resources/source.pdf?signature=lease",
               refreshUrl: "http://localhost:8000/api/resources/source.pdf/url",
+              expiresInSeconds: 900,
               quote: "Lease rent source quote",
               page: 12,
             },
