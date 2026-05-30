@@ -10,23 +10,24 @@ from sqlalchemy.orm.interfaces import ORMOption
 
 from app.db import init_from_json
 from app.db.init_from_json import (
-    DEFAULT_PDF_FILENAME,
     build_seed_records,
+    discover_resource_files,
+    discover_seed_json_paths,
     load_json_rows,
     parse_datetime,
     parse_decimal,
     parse_nullable_string,
-    resolve_pdf_path,
     resource_file_id,
+    seed_all_resources,
     seed_database_from_json,
-    seed_resource_pdf,
+    seed_resource_file,
     seed_session,
 )
 from app.db.models import Asset, FileIndex, Lease, Tenant
 from app.storage.minio_client import UploadedObject, safe_filename
 
 RESOURCE_JSON = Path(__file__).resolve().parents[2] / "ressources" / "warrington_test_data.json"
-RESOURCE_PDF = Path(__file__).resolve().parents[2] / "ressources" / DEFAULT_PDF_FILENAME
+RESOURCE_PDF = Path(__file__).resolve().parents[2] / "ressources" / "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf"
 
 
 class FakeSeedSession:
@@ -65,14 +66,14 @@ class FakeStorage:
         self.settings = FakeSettings(bucket)
         self.objects: dict[str, bytes] = {}
 
-    def upload_local_pdf(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
+    def upload_local_resource(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
         data = path.read_bytes()
         filename = safe_filename(path.name)
         object_key = f"{object_prefix}/{filename}"
         self.objects[object_key] = data
         return UploadedObject(
             filename=filename,
-            content_type="application/pdf",
+            content_type=f"test/{path.suffix.lstrip('.')}",
             size_bytes=len(data),
             bucket=self.settings.minio_bucket,
             object_key=object_key,
@@ -143,17 +144,29 @@ async def test_seed_session_is_idempotent_for_resource_json() -> None:
     assert session.commits == 2
 
 
-def test_resolve_pdf_path_finds_bundled_pdf_next_to_json() -> None:
-    assert resolve_pdf_path(RESOURCE_JSON) == RESOURCE_PDF
+def test_discovers_bundled_seed_json_files() -> None:
+    discovered = discover_seed_json_paths(RESOURCE_JSON.parent)
+
+    assert RESOURCE_JSON in discovered
+    assert RESOURCE_JSON.parent / "source_viewer_test_data.json" in discovered
+
+
+def test_discovers_supported_resource_files() -> None:
+    discovered = discover_resource_files(RESOURCE_JSON.parent)
+
+    assert RESOURCE_PDF in discovered
+    assert RESOURCE_JSON.parent / "source_viewer_demo.pdf" in discovered
+    assert RESOURCE_JSON.parent / "source_viewer_demo.csv" in discovered
+    assert RESOURCE_JSON.parent / "source_viewer_demo.xlsx" in discovered
 
 
 @pytest.mark.asyncio
-async def test_seed_resource_pdf_uploads_and_upserts_file_index() -> None:
+async def test_seed_resource_file_uploads_and_upserts_file_index() -> None:
     session = FakeSeedSession()
     storage = FakeStorage()
 
-    first = await seed_resource_pdf(session, storage, RESOURCE_PDF)
-    second = await seed_resource_pdf(session, storage, RESOURCE_PDF)
+    first = await seed_resource_file(session, storage, RESOURCE_PDF)
+    second = await seed_resource_file(session, storage, RESOURCE_PDF)
 
     assert first.id == second.id
     assert len(session.files) == 1
@@ -165,16 +178,32 @@ async def test_seed_resource_pdf_uploads_and_upserts_file_index() -> None:
 
 
 @pytest.mark.asyncio
+async def test_seed_all_resources_loads_all_json_and_indexes_source_files() -> None:
+    session = FakeSeedSession()
+    storage = FakeStorage()
+
+    summary = await seed_all_resources(session, storage, RESOURCE_JSON.parent)
+
+    assert len(summary.records.assets) == 2
+    assert len(session.assets) == 2
+    assert len(session.tenants) == 8
+    assert len(session.leases) == 8
+    assert len(session.files) == 4
+    assert "resources/source_viewer_demo.csv" in storage.objects
+    assert "resources/source_viewer_demo.xlsx" in storage.objects
+    assert "resources/source_viewer_demo.pdf" in storage.objects
+
+
+@pytest.mark.asyncio
 async def test_seed_database_from_json_seeds_content_only(monkeypatch: pytest.MonkeyPatch) -> None:
     session = FakeSeedSession()
     storage = FakeStorage()
 
     monkeypatch.setattr(init_from_json, "get_sessionmaker", lambda: FakeSessionMaker(session))
     monkeypatch.setattr(init_from_json, "get_object_storage", lambda: storage)
-    monkeypatch.setattr(init_from_json, "resolve_pdf_path", lambda path: RESOURCE_PDF)
 
     records = await seed_database_from_json(RESOURCE_JSON)
 
     assert len(records.assets) == 1
     assert len(session.assets) == 1
-    assert len(session.files) == 1
+    assert len(session.files) == 4

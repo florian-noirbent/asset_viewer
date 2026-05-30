@@ -1,13 +1,20 @@
-from io import BytesIO
-import re
 from dataclasses import dataclass
 from datetime import timedelta
+from io import BytesIO
 from pathlib import Path
+import re
 from time import sleep
 
 from app.core.config import Settings, get_settings
 
 PDF_CONTENT_TYPE = "application/pdf"
+CSV_CONTENT_TYPE = "text/csv"
+XLSX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+RESOURCE_CONTENT_TYPES = {
+    ".csv": CSV_CONTENT_TYPE,
+    ".pdf": PDF_CONTENT_TYPE,
+    ".xlsx": XLSX_CONTENT_TYPE,
+}
 
 
 @dataclass(frozen=True)
@@ -99,21 +106,28 @@ class ObjectStorage:
             expires=timedelta(seconds=expires_seconds),
         )
 
-    def upload_local_pdf(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
+    def upload_local_resource(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
         filename = safe_filename(path.name)
-        if Path(filename).suffix.lower() != ".pdf":
-            raise ValueError(f"Expected a PDF file, got {path}")
+        content_type = content_type_for_resource(path)
 
         data = path.read_bytes()
         object_key = f"{object_prefix.rstrip('/')}/{filename}"
-        self.upload_bytes(object_key, data, PDF_CONTENT_TYPE)
+        self.upload_bytes(object_key, data, content_type)
         return UploadedObject(
             filename=filename,
-            content_type=PDF_CONTENT_TYPE,
+            content_type=content_type,
             size_bytes=len(data),
             bucket=self.settings.minio_bucket,
             object_key=object_key,
         )
+
+
+def content_type_for_resource(path: Path) -> str:
+    suffix = path.suffix.lower()
+    if suffix in RESOURCE_CONTENT_TYPES:
+        return RESOURCE_CONTENT_TYPES[suffix]
+
+    raise ValueError(f"Unsupported resource file type: {path}")
 
 
 def get_object_storage() -> ObjectStorage:

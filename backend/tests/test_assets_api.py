@@ -63,7 +63,7 @@ class FakeStorage:
     def presigned_get_url(self, object_key: str, expires_seconds: int) -> str:
         return PRESIGNED_URL
 
-    def upload_local_pdf(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
+    def upload_local_resource(self, path: Path, object_prefix: str = "resources") -> UploadedObject:
         raise NotImplementedError
 
 

@@ -1,0 +1,1304 @@
+[
+  {
+    "asset_id": "3f38f6d2-8b53-4c5d-ae39-0de46104da52",
+    "asset_name": "Meridian Trade Park",
+    "address": "Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+    "city": "Bristol",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "Canopy Industrial Fund I",
+    "construction_completed_in": "2018",
+    "asset_currency": "GBP",
+    "customer_asset_code": "MTP-001",
+    "property_type": "Multi-let urban logistics estate",
+    "project_type": "Core Plus",
+    "building_area_sf": "20000",
+    "building_area_sm": "1858.06",
+    "area_site": "2.40",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "1",
+    "height": "8m",
+    "doors_dock": "4",
+    "doors_overhead": "6",
+    "parking_spaces_cars": "42",
+    "parking_spaces_trucks": "8",
+    "sprinkler": "ESFR",
+    "environmental_rating": "EPC B",
+    "asset_rent_gross": "172000",
+    "asset_rent_pu": "8.60",
+    "rent_roll_date": "2026-04-01T00:00:00Z",
+    "asset_walt": "3.70",
+    "asset_walb": "2.15",
+    "asset_erv": "184000",
+    "lease_id": "MTP-L-001",
+    "lease_type": "FRI",
+    "lease_area_sf": "12000",
+    "lease_area_sm": "1114.84",
+    "area_warehouse": "10500",
+    "area_office": "1500",
+    "date_start": "2025-07-01T00:00:00Z",
+    "date_expire": "2030-06-30T00:00:00Z",
+    "date_break1": "2028-06-30T00:00:00Z",
+    "date_break2": "",
+    "next_indexation_date": "2027-07-01T00:00:00Z",
+    "contracted_indexation": "CPI capped at 4%",
+    "lease_rent_gross": "96000",
+    "lease_rent_pu": "8.00",
+    "lease_currency": "GBP",
+    "rent_free_months": "3",
+    "non_recoverables": "1200",
+    "void_costs_pa": "0",
+    "lease_walt": "4.25",
+    "lease_walb": "2.25",
+    "lease_erv": "108000",
+    "lessee_name_verbatim": "Northstar Components Limited",
+    "tenant_id": "MTP-T-001",
+    "tenant_name": "Northstar Components Ltd",
+    "tenant_industry": "Precision components distribution",
+    "signing_entity": "Northstar Components Limited",
+    "asset_provenance": {
+      "asset_name": [
+        {
+          "page": 1,
+          "quote": "Meridian Trade Park - Investment Summary",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 1,
+          "quote": "Address: Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "city": [
+        {
+          "page": 1,
+          "quote": "Address: Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 1,
+          "quote": "Address: Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Asset type: Multi-let urban logistics estate",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 1,
+          "quote": "Tenure: Freehold",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 1,
+          "quote": "Gross rent: GBP 172,000 per annum",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "current_owner": [
+        {
+          "page": null,
+          "quote": "External valuer assumption page 2",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Asset type: Multi-let urban logistics estate",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": null,
+          "quote": "External valuer assumption page 2",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ],
+      "height": [
+        {
+          "page": 1,
+          "quote": "Specification: 8m eaves, 4 dock doors, 6 level access doors",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 1,
+          "quote": "Occupancy: 100 percent let to two tenants",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        },
+        {
+          "page": null,
+          "quote": "Two occupied lease rows in rent roll",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "A2:I3"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 1,
+          "quote": "Gross rent: GBP 172,000 per annum",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        },
+        {
+          "page": null,
+          "quote": "SUM(E2:E3) = 172000",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "E4"
+        },
+        {
+          "page": null,
+          "quote": "96000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "annual_rent_gbp"
+        },
+        {
+          "page": null,
+          "quote": "76000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 3,
+          "column": "annual_rent_gbp"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": null,
+          "quote": "Weighted rent = total gross rent 172000 / total area 20000 = 8.60",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": null,
+              "quote": "Gross rent 172000",
+              "sheet": "Valuation Inputs",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "B2"
+            },
+            {
+              "page": null,
+              "quote": "Total area 20000",
+              "sheet": "Valuation Inputs",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "B3"
+            },
+            {
+              "page": null,
+              "quote": "Total gross rent = Northstar rent 96000 + Greenline rent 76000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "96000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "annual_rent_gbp"
+                },
+                {
+                  "page": null,
+                  "quote": "76000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "annual_rent_gbp"
+                }
+              ]
+            },
+            {
+              "page": null,
+              "quote": "Total area = Northstar area 12000 + Greenline area 8000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "12000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "area_sf"
+                },
+                {
+                  "page": null,
+                  "quote": "8000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "area_sf"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "page": 1,
+          "quote": "Average rent: GBP 8.60 per sq ft",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": null,
+          "quote": "Adopted building area reconciles brochure, rent roll, and measured survey at 20,000 sq ft",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": 1,
+              "quote": "Total GIA: 20,000 sq ft",
+              "sheet": null,
+              "document": "source_viewer_demo.pdf",
+              "source_type": "pdf"
+            },
+            {
+              "page": null,
+              "quote": "Adopted total 20000",
+              "sheet": "Area Reconciliation",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "D5"
+            },
+            {
+              "page": null,
+              "quote": "Rent roll total area = 12000 + 8000 = 20000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "12000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "area_sf"
+                },
+                {
+                  "page": null,
+                  "quote": "8000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "area_sf"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "page": null,
+          "quote": "Adopted total 20000",
+          "sheet": "Area Reconciliation",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ],
+      "area_site": [
+        {
+          "page": null,
+          "quote": "Gross rent divided by total area",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D4"
+        }
+      ],
+      "erv": [
+        {
+          "page": 2,
+          "quote": "ERV: GBP 184,000 per annum based on GBP 9.20 per sq ft market tone",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        },
+        {
+          "page": null,
+          "quote": "184000",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "B5"
+        }
+      ],
+      "walt": [
+        {
+          "page": null,
+          "quote": "WALT = ((4.25 years x 96000) + (3.00 years x 76000)) / 172000 = 3.70 years",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": null,
+              "quote": "3.70",
+              "sheet": "Valuation Inputs",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "B6"
+            },
+            {
+              "page": null,
+              "quote": "Northstar weighted lease term contribution = 4.25 x 96000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "2030-06-30",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "expiry_date"
+                },
+                {
+                  "page": null,
+                  "quote": "96000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "annual_rent_gbp"
+                }
+              ]
+            },
+            {
+              "page": null,
+              "quote": "Greenline weighted lease term contribution = 3.00 x 76000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "2029-03-31",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "expiry_date"
+                },
+                {
+                  "page": null,
+                  "quote": "76000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "annual_rent_gbp"
+                }
+              ]
+            },
+            {
+              "page": 2,
+              "quote": "WALT: 3.70 years weighted by current gross rent as at 2026-04-01",
+              "sheet": null,
+              "document": "source_viewer_demo.pdf",
+              "source_type": "pdf"
+            }
+          ]
+        }
+      ]
+    },
+    "lease_provenance": {
+      "area": [
+        {
+          "page": null,
+          "quote": "12000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "area_sf"
+        },
+        {
+          "page": null,
+          "quote": "12000",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D2"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": null,
+          "quote": "96000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "annual_rent_gbp"
+        },
+        {
+          "page": null,
+          "quote": "96000",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "E2"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": null,
+          "quote": "Lease rent per sf = annual rent 96000 / area 12000 = 8.00",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": null,
+              "quote": "96000",
+              "sheet": null,
+              "document": "source_viewer_demo.csv",
+              "source_type": "csv",
+              "row": 2,
+              "column": "annual_rent_gbp"
+            },
+            {
+              "page": null,
+              "quote": "12000",
+              "sheet": null,
+              "document": "source_viewer_demo.csv",
+              "source_type": "csv",
+              "row": 2,
+              "column": "area_sf"
+            },
+            {
+              "page": null,
+              "quote": "8.00",
+              "sheet": "Rent Roll",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "F2"
+            }
+          ]
+        }
+      ],
+      "date_start": [
+        {
+          "page": null,
+          "quote": "2025-07-01",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "start_date"
+        },
+        {
+          "page": null,
+          "quote": "2025-07-01",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "G2"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": null,
+          "quote": "2030-06-30",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "expiry_date"
+        },
+        {
+          "page": null,
+          "quote": "2030-06-30",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "H2"
+        }
+      ],
+      "date_break1": [
+        {
+          "page": null,
+          "quote": "2028-06-30",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "break_date"
+        }
+      ],
+      "erv": [
+        {
+          "page": null,
+          "quote": "184000",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "B5"
+        },
+        {
+          "page": 2,
+          "quote": "ERV: GBP 184,000 per annum based on GBP 9.20 per sq ft market tone",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 2,
+          "quote": "Northstar Components Ltd occupies Units 1-4 at GBP 96,000 per annum",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": null,
+          "quote": "Northstar Components Ltd",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "tenant_name"
+        },
+        {
+          "page": null,
+          "quote": "Northstar Components Ltd",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "B2"
+        }
+      ],
+      "industry": [
+        {
+          "page": null,
+          "quote": "External valuer assumption page 2",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ]
+    }
+  },
+  {
+    "asset_id": "3f38f6d2-8b53-4c5d-ae39-0de46104da52",
+    "asset_name": "Meridian Trade Park",
+    "address": "Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+    "city": "Bristol",
+    "country": "United Kingdom",
+    "asset_type": "Logistics",
+    "tenure": "Freehold",
+    "current_owner": "Canopy Industrial Fund I",
+    "construction_completed_in": "2018",
+    "asset_currency": "GBP",
+    "customer_asset_code": "MTP-001",
+    "property_type": "Multi-let urban logistics estate",
+    "project_type": "Core Plus",
+    "building_area_sf": "20000",
+    "building_area_sm": "1858.06",
+    "area_site": "2.40",
+    "area_vacant": "0",
+    "building_occupancy": "1.0",
+    "no_of_floors": "1",
+    "height": "8m",
+    "doors_dock": "4",
+    "doors_overhead": "6",
+    "parking_spaces_cars": "42",
+    "parking_spaces_trucks": "8",
+    "sprinkler": "ESFR",
+    "environmental_rating": "EPC B",
+    "asset_rent_gross": "172000",
+    "asset_rent_pu": "8.60",
+    "rent_roll_date": "2026-04-01T00:00:00Z",
+    "asset_walt": "3.70",
+    "asset_walb": "2.15",
+    "asset_erv": "184000",
+    "lease_id": "MTP-L-002",
+    "lease_type": "FRI",
+    "lease_area_sf": "8000",
+    "lease_area_sm": "743.22",
+    "area_warehouse": "7200",
+    "area_office": "800",
+    "date_start": "2024-04-01T00:00:00Z",
+    "date_expire": "2029-03-31T00:00:00Z",
+    "date_break1": "",
+    "date_break2": "",
+    "next_indexation_date": "2026-04-01T00:00:00Z",
+    "contracted_indexation": "Fixed uplift to GBP 80,000 pa in 2027",
+    "lease_rent_gross": "76000",
+    "lease_rent_pu": "9.50",
+    "lease_currency": "GBP",
+    "rent_free_months": "0",
+    "non_recoverables": "950",
+    "void_costs_pa": "0",
+    "lease_walt": "3.00",
+    "lease_walb": "3.00",
+    "lease_erv": "76000",
+    "lessee_name_verbatim": "Greenline Fulfilment Limited",
+    "tenant_id": "MTP-T-002",
+    "tenant_name": "Greenline Fulfilment Ltd",
+    "tenant_industry": "E-commerce fulfilment",
+    "signing_entity": "Greenline Fulfilment Limited",
+    "asset_provenance": {
+      "asset_name": [
+        {
+          "page": 1,
+          "quote": "Meridian Trade Park - Investment Summary",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "address": [
+        {
+          "page": 1,
+          "quote": "Address: Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "city": [
+        {
+          "page": 1,
+          "quote": "Address: Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "country": [
+        {
+          "page": 1,
+          "quote": "Address: Unit 1-8 Meridian Trade Park, Bristol BS2 0ZX",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "asset_type": [
+        {
+          "page": 1,
+          "quote": "Asset type: Multi-let urban logistics estate",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "tenure": [
+        {
+          "page": 1,
+          "quote": "Tenure: Freehold",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "currency": [
+        {
+          "page": 1,
+          "quote": "Gross rent: GBP 172,000 per annum",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "current_owner": [
+        {
+          "page": null,
+          "quote": "External valuer assumption page 2",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ]
+    },
+    "logistics_provenance": {
+      "property_type": [
+        {
+          "page": 1,
+          "quote": "Asset type: Multi-let urban logistics estate",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "project_type": [
+        {
+          "page": null,
+          "quote": "External valuer assumption page 2",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ],
+      "height": [
+        {
+          "page": 1,
+          "quote": "Specification: 8m eaves, 4 dock doors, 6 level access doors",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "occupancy": [
+        {
+          "page": 1,
+          "quote": "Occupancy: 100 percent let to two tenants",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        },
+        {
+          "page": null,
+          "quote": "Two occupied lease rows in rent roll",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "A2:I3"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": 1,
+          "quote": "Gross rent: GBP 172,000 per annum",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        },
+        {
+          "page": null,
+          "quote": "SUM(E2:E3) = 172000",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "E4"
+        },
+        {
+          "page": null,
+          "quote": "96000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 2,
+          "column": "annual_rent_gbp"
+        },
+        {
+          "page": null,
+          "quote": "76000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 3,
+          "column": "annual_rent_gbp"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": null,
+          "quote": "Weighted rent = total gross rent 172000 / total area 20000 = 8.60",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": null,
+              "quote": "Gross rent 172000",
+              "sheet": "Valuation Inputs",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "B2"
+            },
+            {
+              "page": null,
+              "quote": "Total area 20000",
+              "sheet": "Valuation Inputs",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "B3"
+            },
+            {
+              "page": null,
+              "quote": "Total gross rent = Northstar rent 96000 + Greenline rent 76000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "96000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "annual_rent_gbp"
+                },
+                {
+                  "page": null,
+                  "quote": "76000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "annual_rent_gbp"
+                }
+              ]
+            },
+            {
+              "page": null,
+              "quote": "Total area = Northstar area 12000 + Greenline area 8000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "12000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "area_sf"
+                },
+                {
+                  "page": null,
+                  "quote": "8000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "area_sf"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "page": 1,
+          "quote": "Average rent: GBP 8.60 per sq ft",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "area": [
+        {
+          "page": null,
+          "quote": "Adopted building area reconciles brochure, rent roll, and measured survey at 20,000 sq ft",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": 1,
+              "quote": "Total GIA: 20,000 sq ft",
+              "sheet": null,
+              "document": "source_viewer_demo.pdf",
+              "source_type": "pdf"
+            },
+            {
+              "page": null,
+              "quote": "Adopted total 20000",
+              "sheet": "Area Reconciliation",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "D5"
+            },
+            {
+              "page": null,
+              "quote": "Rent roll total area = 12000 + 8000 = 20000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "12000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "area_sf"
+                },
+                {
+                  "page": null,
+                  "quote": "8000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "area_sf"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "page": null,
+          "quote": "Adopted total 20000",
+          "sheet": "Area Reconciliation",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ],
+      "area_site": [
+        {
+          "page": null,
+          "quote": "Gross rent divided by total area",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D4"
+        }
+      ],
+      "erv": [
+        {
+          "page": 2,
+          "quote": "ERV: GBP 184,000 per annum based on GBP 9.20 per sq ft market tone",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        },
+        {
+          "page": null,
+          "quote": "184000",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "B5"
+        }
+      ],
+      "walt": [
+        {
+          "page": null,
+          "quote": "WALT = ((4.25 years x 96000) + (3.00 years x 76000)) / 172000 = 3.70 years",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": null,
+              "quote": "3.70",
+              "sheet": "Valuation Inputs",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "B6"
+            },
+            {
+              "page": null,
+              "quote": "Northstar weighted lease term contribution = 4.25 x 96000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "2030-06-30",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "expiry_date"
+                },
+                {
+                  "page": null,
+                  "quote": "96000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 2,
+                  "column": "annual_rent_gbp"
+                }
+              ]
+            },
+            {
+              "page": null,
+              "quote": "Greenline weighted lease term contribution = 3.00 x 76000",
+              "sheet": null,
+              "document": null,
+              "source_type": "composite",
+              "sources": [
+                {
+                  "page": null,
+                  "quote": "2029-03-31",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "expiry_date"
+                },
+                {
+                  "page": null,
+                  "quote": "76000",
+                  "sheet": null,
+                  "document": "source_viewer_demo.csv",
+                  "source_type": "csv",
+                  "row": 3,
+                  "column": "annual_rent_gbp"
+                }
+              ]
+            },
+            {
+              "page": 2,
+              "quote": "WALT: 3.70 years weighted by current gross rent as at 2026-04-01",
+              "sheet": null,
+              "document": "source_viewer_demo.pdf",
+              "source_type": "pdf"
+            }
+          ]
+        }
+      ]
+    },
+    "lease_provenance": {
+      "area": [
+        {
+          "page": null,
+          "quote": "8000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 3,
+          "column": "area_sf"
+        },
+        {
+          "page": null,
+          "quote": "8000",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D3"
+        }
+      ],
+      "rent_gross": [
+        {
+          "page": null,
+          "quote": "76000",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 3,
+          "column": "annual_rent_gbp"
+        },
+        {
+          "page": null,
+          "quote": "76000",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "E3"
+        }
+      ],
+      "rent_pu": [
+        {
+          "page": null,
+          "quote": "Lease rent per sf = annual rent 76000 / area 8000 = 9.50",
+          "sheet": null,
+          "document": null,
+          "source_type": "composite",
+          "sources": [
+            {
+              "page": null,
+              "quote": "76000",
+              "sheet": null,
+              "document": "source_viewer_demo.csv",
+              "source_type": "csv",
+              "row": 3,
+              "column": "annual_rent_gbp"
+            },
+            {
+              "page": null,
+              "quote": "8000",
+              "sheet": null,
+              "document": "source_viewer_demo.csv",
+              "source_type": "csv",
+              "row": 3,
+              "column": "area_sf"
+            },
+            {
+              "page": null,
+              "quote": "9.50",
+              "sheet": "Rent Roll",
+              "document": "source_viewer_demo.xlsx",
+              "source_type": "excel",
+              "cell": "F3"
+            }
+          ]
+        }
+      ],
+      "date_start": [
+        {
+          "page": null,
+          "quote": "2024-04-01",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 3,
+          "column": "start_date"
+        },
+        {
+          "page": null,
+          "quote": "2024-04-01",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "G3"
+        }
+      ],
+      "date_expire": [
+        {
+          "page": null,
+          "quote": "2029-03-31",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 3,
+          "column": "expiry_date"
+        },
+        {
+          "page": null,
+          "quote": "2029-03-31",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "H3"
+        }
+      ],
+      "date_break1": [],
+      "erv": [
+        {
+          "page": null,
+          "quote": "184000",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "B5"
+        },
+        {
+          "page": 2,
+          "quote": "ERV: GBP 184,000 per annum based on GBP 9.20 per sq ft market tone",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ],
+      "comments": [
+        {
+          "page": 2,
+          "quote": "Greenline Fulfilment Ltd occupies Units 5-8 at GBP 76,000 per annum",
+          "sheet": null,
+          "document": "source_viewer_demo.pdf",
+          "source_type": "pdf"
+        }
+      ]
+    },
+    "tenant_provenance": {
+      "name": [
+        {
+          "page": null,
+          "quote": "Greenline Fulfilment Ltd",
+          "sheet": null,
+          "document": "source_viewer_demo.csv",
+          "source_type": "csv",
+          "row": 3,
+          "column": "tenant_name"
+        },
+        {
+          "page": null,
+          "quote": "Greenline Fulfilment Ltd",
+          "sheet": "Rent Roll",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "B3"
+        }
+      ],
+      "industry": [
+        {
+          "page": null,
+          "quote": "External valuer assumption page 2",
+          "sheet": "Valuation Inputs",
+          "document": "source_viewer_demo.xlsx",
+          "source_type": "excel",
+          "cell": "D5"
+        }
+      ]
+    }
+  }
+]

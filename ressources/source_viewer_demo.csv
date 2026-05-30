@@ -1,0 +1,3 @@
+lease_id,tenant_name,unit,area_sf,annual_rent_gbp,rent_per_sf_gbp,start_date,expiry_date,break_date
+MTP-L-001,Northstar Components Ltd,Units 1-4,12000,96000,8.00,2025-07-01,2030-06-30,2028-06-30
+MTP-L-002,Greenline Fulfilment Ltd,Units 5-8,8000,76000,9.50,2024-04-01,2029-03-31,

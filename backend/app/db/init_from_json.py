@@ -16,9 +16,10 @@ from app.db.models import Asset, FileIndex, Lease, Tenant
 from app.db.session import get_sessionmaker
 from app.storage.minio_client import get_object_storage
 
-DEFAULT_JSON_PATH = Path("/app/ressources/warrington_test_data.json")
-DEFAULT_PDF_FILENAME = "Warrington_Portfolio_Warrington_Central_TE_and_Causeway_Park_IE_iBRO.01 (1).pdf"
 RESOURCE_OBJECT_PREFIX = "resources"
+DEFAULT_RESOURCE_DIR = Path("/app/ressources")
+SEED_JSON_PATTERN = "*_test_data.json"
+SUPPORTED_RESOURCE_SUFFIXES = {".csv", ".pdf", ".xlsx"}
 
 
 @dataclass(frozen=True)
@@ -28,6 +29,12 @@ class SeedRecords:
     leases: list[Lease]
 
 
+@dataclass(frozen=True)
+class SeedSummary:
+    records: SeedRecords
+    files: list[FileIndex]
+
+
 class SeedSession(Protocol):
     async def merge(self, instance: object, *, load: bool = True, options: Sequence[ORMOption] | None = None) -> object: ...
 
@@ -35,7 +42,7 @@ class SeedSession(Protocol):
 
 
 class ResourceStorage(Protocol):
-    def upload_local_pdf(self, path: Path, object_prefix: str = "resources") -> Any: ...
+    def upload_local_resource(self, path: Path, object_prefix: str = "resources") -> Any: ...
 
 
 def parse_nullable_string(value: Any) -> str | None:
@@ -196,12 +203,12 @@ async def seed_session(session: SeedSession, rows: list[dict[str, Any]]) -> Seed
     return records
 
 
-async def seed_resource_pdf(
+async def seed_resource_file(
     session: SeedSession,
     storage: ResourceStorage,
-    pdf_path: Path,
+    resource_path: Path,
 ) -> FileIndex:
-    uploaded = await run_sync(storage.upload_local_pdf, pdf_path, RESOURCE_OBJECT_PREFIX)
+    uploaded = await run_sync(storage.upload_local_resource, resource_path, RESOURCE_OBJECT_PREFIX)
     row = FileIndex(
         id=resource_file_id(uploaded.object_key),
         filename=uploaded.filename,
@@ -218,30 +225,54 @@ async def seed_resource_pdf(
     return merged
 
 
+async def seed_resource_files(session: SeedSession, storage: ResourceStorage, resource_paths: Sequence[Path]) -> list[FileIndex]:
+    files = []
+    for resource_path in resource_paths:
+        files.append(await seed_resource_file(session, storage, resource_path))
+
+    return files
+
+
 async def seed_database_from_json(path: Path) -> SeedRecords:
     rows = load_json_rows(path)
 
     async with get_sessionmaker()() as session:
         records = await seed_session(session, rows)
-        await seed_resource_pdf(session, get_object_storage(), resolve_pdf_path(path))
+        await seed_resource_files(session, get_object_storage(), discover_resource_files(path.parent))
         return records
 
 
-initialize_database_from_json = seed_database_from_json
+async def seed_all_resources(session: SeedSession, storage: ResourceStorage, resource_dir: Path) -> SeedSummary:
+    all_rows = []
+    for json_path in discover_seed_json_paths(resource_dir):
+        all_rows.extend(load_json_rows(json_path))
+
+    records = await seed_session(session, all_rows)
+    files = await seed_resource_files(session, storage, discover_resource_files(resource_dir))
+    return SeedSummary(records=records, files=files)
 
 
-def resolve_pdf_path(json_path: Path) -> Path:
-    candidates = [
-        json_path.parent / DEFAULT_PDF_FILENAME,
-        Path("/app/ressources") / DEFAULT_PDF_FILENAME,
-        Path(__file__).resolve().parents[3] / "ressources" / DEFAULT_PDF_FILENAME,
-    ]
+async def seed_database_from_resource_dir(resource_dir: Path) -> SeedSummary:
+    async with get_sessionmaker()() as session:
+        return await seed_all_resources(session, get_object_storage(), resource_dir)
 
-    for candidate in candidates:
-        if candidate.exists():
-            return candidate
 
-    raise FileNotFoundError(f"Could not find bundled Warrington PDF: {DEFAULT_PDF_FILENAME}")
+def discover_seed_json_paths(resource_dir: Path) -> list[Path]:
+    if not resource_dir.exists():
+        raise FileNotFoundError(f"Resource directory not found: {resource_dir}")
+
+    paths = sorted(path for path in resource_dir.glob(SEED_JSON_PATTERN) if path.is_file())
+    if not paths:
+        raise FileNotFoundError(f"No seed JSON files found in {resource_dir} matching {SEED_JSON_PATTERN}")
+
+    return paths
+
+
+def discover_resource_files(resource_dir: Path) -> list[Path]:
+    if not resource_dir.exists():
+        raise FileNotFoundError(f"Resource directory not found: {resource_dir}")
+
+    return sorted(path for path in resource_dir.iterdir() if path.is_file() and path.suffix.lower() in SUPPORTED_RESOURCE_SUFFIXES)
 
 
 def resource_file_id(object_key: str) -> uuid.UUID:
@@ -258,28 +289,36 @@ def required(row: dict[str, Any], key: str) -> str:
 
 
 def resolve_default_path() -> Path:
-    if DEFAULT_JSON_PATH.exists():
-        return DEFAULT_JSON_PATH
+    if DEFAULT_RESOURCE_DIR.exists():
+        return DEFAULT_RESOURCE_DIR
 
-    repo_path = Path(__file__).resolve().parents[3] / "ressources" / "warrington_test_data.json"
-    return repo_path
+    return Path(__file__).resolve().parents[3] / "ressources"
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Initialize GoCanopy DB from a lease JSON export")
     parser.add_argument(
-        "json_path",
+        "resource_path",
         nargs="?",
         type=Path,
         default=resolve_default_path(),
-        help="Path to the lease JSON file",
+        help="Path to a resources directory or one seed JSON file",
     )
     return parser.parse_args()
 
 
 async def async_main() -> None:
     args = parse_args()
-    records = await seed_database_from_json(args.json_path)
+    resource_path = args.resource_path
+    if resource_path.is_dir():
+        summary = await seed_database_from_resource_dir(resource_path)
+        print(
+            "Seeded database from resources: "
+            f"{len(summary.records.assets)} assets, {len(summary.records.tenants)} tenants, {len(summary.records.leases)} leases, {len(summary.files)} files"
+        )
+        return
+
+    records = await seed_database_from_json(resource_path)
     print(f"Seeded database from JSON: {len(records.assets)} assets, {len(records.tenants)} tenants, {len(records.leases)} leases")
 
 

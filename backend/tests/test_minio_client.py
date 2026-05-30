@@ -76,13 +76,13 @@ def test_safe_filename_removes_unsafe_characters() -> None:
     assert safe_filename("Warrington (1).pdf") == "Warrington_1.pdf"
 
 
-def test_upload_local_pdf_uses_idempotent_resource_key(tmp_path: Path) -> None:
+def test_upload_local_resource_uses_idempotent_resource_key(tmp_path: Path) -> None:
     pdf_path = tmp_path / "Asset Report (1).pdf"
     pdf_path.write_bytes(b"%PDF-1.4")
     storage = make_storage()
 
-    first = storage.upload_local_pdf(pdf_path)
-    second = storage.upload_local_pdf(pdf_path)
+    first = storage.upload_local_resource(pdf_path)
+    second = storage.upload_local_resource(pdf_path)
 
     assert first == second
     assert first.filename == "Asset_Report_1.pdf"
@@ -92,13 +92,30 @@ def test_upload_local_pdf_uses_idempotent_resource_key(tmp_path: Path) -> None:
     assert client.objects[("assets", first.object_key)]["content_type"] == "application/pdf"
 
 
-def test_upload_local_pdf_rejects_non_pdf(tmp_path: Path) -> None:
+def test_upload_local_resource_supports_csv_and_xlsx(tmp_path: Path) -> None:
+    csv_path = tmp_path / "rent roll.csv"
+    csv_path.write_text("lease_id,tenant\n1,Northstar\n", encoding="utf-8")
+    xlsx_path = tmp_path / "model.xlsx"
+    xlsx_path.write_bytes(b"PK\x03\x04")
+    storage = make_storage()
+
+    csv_upload = storage.upload_local_resource(csv_path)
+    xlsx_upload = storage.upload_local_resource(xlsx_path)
+
+    client = fake_client(storage)
+    assert csv_upload.object_key == "resources/rent_roll.csv"
+    assert xlsx_upload.object_key == "resources/model.xlsx"
+    assert client.objects[("assets", csv_upload.object_key)]["content_type"] == "text/csv"
+    assert client.objects[("assets", xlsx_upload.object_key)]["content_type"] == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+
+def test_upload_local_resource_rejects_unsupported_file(tmp_path: Path) -> None:
     storage = make_storage()
     path = tmp_path / "notes.txt"
     path.write_text("hello", encoding="utf-8")
 
     with pytest.raises(ValueError):
-        storage.upload_local_pdf(path)
+        storage.upload_local_resource(path)
 
 
 def test_read_bytes_closes_minio_response() -> None:
