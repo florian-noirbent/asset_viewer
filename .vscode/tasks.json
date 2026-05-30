@@ -36,6 +36,15 @@
         "cwd": "${workspaceFolder}/frontend"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "frontend e2e local",
+      "type": "shell",
+      "command": "$env:PLAYWRIGHT_BASE_URL='http://localhost:5173'; npm run e2e",
+      "options": {
+        "cwd": "${workspaceFolder}/frontend"
+      },
+      "problemMatcher": []
     }
   ]
 }

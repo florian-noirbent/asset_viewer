@@ -112,6 +112,30 @@ describe("PdfEvidencePanel", () => {
     expect(screen.getByTestId("mock-viewer")).toHaveAttribute("data-file-url", "blob:source-pdf");
   });
 
+  it("loads new evidence when the source changes while the panel is open", async () => {
+    const nextEvidence: EvidenceTarget = {
+      ...evidence,
+      entityType: "lease",
+      fieldPath: "lease.rent_gross",
+      label: "Gross rent",
+      value: "27000",
+      quote: "GBP 27,000",
+      sourcePage: 16,
+    };
+    vi.mocked(loadCachedPdfObjectUrl).mockResolvedValueOnce("blob:asset-source").mockResolvedValueOnce("blob:lease-source");
+
+    const { rerender } = render(<PdfEvidencePanel evidence={evidence} isOpen onClose={vi.fn()} />);
+
+    await waitFor(() => expect(screen.getByTestId("mock-viewer")).toHaveAttribute("data-file-url", "blob:asset-source"));
+
+    rerender(<PdfEvidencePanel evidence={nextEvidence} isOpen onClose={vi.fn()} />);
+
+    expect(screen.getByRole("heading", { name: "Gross rent" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Location" })).not.toBeInTheDocument();
+    await waitFor(() => expect(screen.getByTestId("mock-viewer")).toHaveAttribute("data-file-url", "blob:lease-source"));
+    expect(loadCachedPdfObjectUrl).toHaveBeenCalledTimes(2);
+  });
+
   it("uses the source page first and highlights the quote", async () => {
     const user = userEvent.setup();
 
